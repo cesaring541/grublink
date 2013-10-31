@@ -6,7 +6,10 @@ from django.conf.urls import patterns, include, url
 
 urlpatterns = patterns('',
     # Examples:
-    # url(r'^$', 'gruplink.views.home', name='home'),
+    url(r'^$', 'main.views.home'),
+    url(r'^agregar_seccion', 'main.views.add_section'),
+    url(r'^actualizar_secciones', 'main.views.update_sections'),
+    url(r'^borrar_seccion/(?P<identification>\d+)$', 'main.views.delete_section'),
     # url(r'^gruplink/', include('gruplink.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:
