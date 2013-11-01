@@ -1,0 +1,7 @@
+#: templates/index.html:12
+msgid "title"
+msgstr "This is the title"
+
+#: templates/index.html:192
+msgid "language"
+msgstr "Default lang"

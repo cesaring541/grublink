@@ -1,0 +1,7 @@
+#: templates/index.html:12
+msgid "title"
+msgstr "Systems Engineering - Uptc"
+
+#: templates/index.html:192
+msgid "language"
+msgstr "Language"

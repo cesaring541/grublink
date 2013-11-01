@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+ {% load i18n %}
+<html>
 <head>
 
 <!-- BOOTSCROLLER premium Bootstrap html5 template v 1.0.0. 
@@ -8,7 +9,7 @@ ArtLabs 2013 - http://www.sitediscount.ru
 Version 2 ############ -->
 
 <meta charset="utf-8">
-<title>Grupos de investigacion</title>
+<title>{% trans "title" %} </title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="responsive parallax Bootstrap template">
 <meta name="author" content="ArtLabs">
@@ -111,15 +112,13 @@ Version 2 ############ -->
 				<span class="icon-bar"></span>
 			</button>
 
-			{%if request.session.user == 'admin'%}
-				<div id="header_admin_toolbar"></div>
-			{%endif%}
-						
+									
 			 <!-- TOP NAVIGATION-->
 			 <div id="main-nav" class="scroller-spy">
 				<nav class="nav-collapse collapse" >
 
-				<img src="{{MEDIA_URL}}img/logo.png" alt="Logo">
+				<img src="{{MEDIA_URL}}img/logo_{{request.LANGUAGE_CODE}}.png" alt="Logo">
+
 
 				  <ul class="nav pull-right" id="nav">
 
@@ -132,6 +131,7 @@ Version 2 ############ -->
 					<li><a href="#features-section">La escuela</a> </li>
 					<li><a href="#team-section">Investigación</a> </li>
 					<li><a href="#contact-section">Contacto</a> </li> -->
+					{%if request.session.user == 'admin'%}
 					<ul class="nav pull-right" style="display: inline-block;
 					background: rgb(228, 228, 228);
 					line-height: 10px;
@@ -148,7 +148,7 @@ Version 2 ############ -->
 									<input type="text" name="section_title" placeholder="Título de la seccion"/>
 									<input type="text" name="section_index" placeholder="Índice de la seccion"/>
 									<input type="hidden" name="section_lang" value="es"/>
-									<input type="submit" class="btn btn-success"/>
+									<input type="submit" class="btn btn-success" value="Enviar"/>
 								</form>
 							</div>
 						</li>
@@ -169,15 +169,25 @@ Version 2 ############ -->
 												</tr>
 											</thead>
 											<tbody id="sections_edit_fields">
+											{%if sections%}
 												{%for section in sections%}
 												<tr>
 													<td>{{section.id}}</td>
 													<td><input type="text" field="section_name" value="{{section.section_name}}" placeholder="Nombre"></td>
 													<td><input type="text" field="section_title" value="{{section.section_title}}" placeholder="Título"></td>
 													<td><input type="text" field="section_index" value="{{section.section_index}}" placeholder="Índice"></td>
-													<td><button class="btn btn-danger"><a href="borrar_seccion/{{section.id}}"><i class="fa-icon-trash"></i></a></button></td>
+													<td>
+														<a class="btn btn-danger" href="borrar_seccion/{{section.id}}">
+															<i class="fa-icon-trash"></i>
+														</a>
+													</td>
 												</tr>
 												{%endfor%}
+											{%else%}
+												<tr>
+													<td colspan="5">No se han definido secciones</td>
+												</tr>
+											{%endif%}
 											</tbody>
 										</table>
 									</div>
@@ -187,17 +197,26 @@ Version 2 ############ -->
 							</div>
 						</li>
 					</ul>
+					{%endif%}
 					<div class="btn-group" style="line-height:40px;display: inline-block;">
-						<button class="btn btn-medium"><i class="fa-icon-globe"></i> Idioma</button>
+						<button class="btn btn-medium"><i class="fa-icon-globe"></i> {%trans "language"%}</button>
 						<button class="btn btn-medium dropdown-toggle" data-toggle="dropdown">
 							<span class="caret"></span>
 						</button>
-						<ul class="dropdown-menu">
-							<li><a href="#">Español</a></li>
-							<li class="divider"></li>
-							<li><a href="#">English</a></li>
+						<ul class="dropdown-menu" id="setlang">
+							{% get_language_info_list for LANGUAGES as languages %}
+							{% for language in languages %}
+							<li>
+								<a lang="{{language.code}}" href="#">{{ language.name_local }} ({{ language.code }})</a>
+							</li>
+							{% endfor %}
 						</ul>
-					</div>					
+					</div>	
+					<form action="/i18n/setlang/" method="post" id="setlang_form">
+						{% csrf_token %}
+						<input name="next" type="hidden" value="/" />
+						<input name="language" id ="lang" type="hidden"/>
+					</form>				
 				</nav>
 			  </div>
 		  
@@ -213,61 +232,79 @@ Version 2 ############ -->
 	<!-- slider responsive -->
 	<!-- <div class="container"> -->
       <!-- Responsive slider - START -->
-    	<div class="responsive-slider" data-spy="responsive-slider" data-autoplay="true">
-        <div class="slides" data-group="slides">
+      <div class="responsive-slider" data-spy="responsive-slider" data-autoplay="true">
+      	{%if request.session.user == 'admin' %}
+      	<div id="slides_admin_toolbar" class="btn-group" 
+      		 style="position:absolute;z-index:1;top:10px;left:10px;">
+
+      		<a href="#" class="btn" id="btn_add_slide"><i class="fa-icon-plus"></i></a>
+      		<a href="#" class="btn" id="btn_edit_slide"><i class="fa-icon-edit"></i></a>
+      		<a href="#" class="btn" id="btn_del_slide"><i class="fa-icon-trash"></i></a>
+      		<a href="#" class="btn"><i class="fa-icon-cog"></i></a>
+      	</div>
+      	<div id="add_slide_form" 
+      	style="box-shadow:0 0 10px black;display:none;position:absolute;z-index:1;top:50px;left:10px;background:white;border-radius:5px;width:250px;text-align:center;padding:20px;">
+      		<form action="agregar_slide" method="post" id="setlang_form" enctype="multipart/form-data">
+      			{% csrf_token %}
+      			<input type="text" name="name" placeholder="Nombre de slide"/>
+      			<input type="text" name="title" placeholder="Título de slide"/>
+      			<input type="text" name="abstract" placeholder="Resumen de slide"/>
+      			<input type="text" name="link" placeholder="Enlace de slide"/>
+      			<button class="btn btn-medium btn-info" id="zo">Fondo</button><button class="btn btn-medium btn-info" id="zob">Icono</button>
+      			<input style="display:none;" type="file" id="z" name="bg" placeholder="Imagen de fondo"/>
+      			<input style="display:none;" type="file" id="zp" name="icon" placeholder="Ícono acompañante"/>
+      			<input type="text" name="index" placeholder="Posicion"/>
+      			<input type="submit" class="btn btn-success" value="Guardar">
+      		</form>	
+      	</div>
+      	<div id="edit_slide_form" 
+      	style="box-shadow:0 0 10px black;display:none;position:absolute;z-index:1;top:50px;left:10px;background:white;border-radius:5px;width:250px;text-align:center;padding:20px;">
+      		<form action="actualizar_slide" method="post" enctype="multipart/form-data">
+      			{% csrf_token %}
+      			<input type="hidden" id="ed_slide_id" name="id"/>
+      			<input type="text" id="ed_slide_name" name="name" placeholder="Nombre de slide"/>
+      			<input type="text" id="ed_slide_title" name="title" placeholder="Título de slide"/>
+      			<input type="text" id="ed_slide_abstract" name="abstract" placeholder="Resumen de slide"/>
+      			<input type="text" id="ed_slide_link" name="link" placeholder="Enlace de slide"/>
+      			<button class="btn btn-medium btn-info" id="zu">Fondo</button><button class="btn btn-medium btn-info" id="zub">Icono</button>
+      			<input style="display:none;" type="file" id="z2u" name="bg" placeholder="Imagen de fondo"/>
+      			<input style="display:none;" type="file" id="zup" name="icon" placeholder="Ícono acompañante"/>
+      			<input type="text" id="ed_slide_index" name="index" placeholder="Posicion"/>
+      			<input type="submit" class="btn btn-success" value="Actualizar">
+      		</form>	
+      	</div>
+      	{%endif%}
+
+      	<div class="slides" data-group="slides">
       		<ul>
-  	    		<li>
-             	 <div class="slide-body" data-group="slide">
-                <img src="{{MEDIA_URL}}img/slide-1.jpg">
-                <div class="caption header" data-animate="slideAppearRightToLeft" data-delay="500" data-length="300">
-                  <h2>Responsive slider</h2>
-                  <div class="caption sub" data-animate="slideAppearLeftToRight" data-delay="800" data-length="300">With one to one swipe movement!</div>
-                </div>
-                <div class="caption img-html5" data-animate="slideAppearLeftToRight" data-delay="200">
-                  <img src="{{MEDIA_URL}}img/html5.png">
-                </div>
-                <div class="caption img-css3" data-animate="slideAppearLeftToRight">
-                  <img src="{{MEDIA_URL}}img/css3.png">
-                </div>
-              </div>
-  	    		</li>
-  	    		<li>
-              <div class="slide-body" data-group="slide">
-                <img src="{{MEDIA_URL}}img/slide-2.jpg">
-                <div class="caption header" data-animate="slideAppearRightToLeft" data-delay="500" data-length="300">
-                  <h2>Twitter Boostrap</h2>
-                  <div class="caption sub" data-animate="slideAppearLeftToRight" data-delay="800" data-length="300">Compatible!</div>
-                </div>
-                <div class="caption img-bootstrap" data-animate="slideAppearDownToUp" data-delay="200">
-                  <img src="{{MEDIA_URL}}img/bootstrap.png">
-                </div>
-                <div class="caption img-twitter" data-animate="slideAppearUpToDown">
-                  <img src="{{MEDIA_URL}}img/twitter.png">
-                </div>
-              </div>
-  	    		</li>
-  	    		<li>
-              <div class="slide-body" data-group="slide">
-                <img src="{{MEDIA_URL}}img/slide-3.jpg">
-                <div class="caption header" data-animate="slideAppearRightToLeft" data-delay="500" data-length="300">
-                  <h2>Custom animations</h2>
-                  <div class="caption sub" data-animate="slideAppearLeftToRight" data-delay="800" data-length="300">For any caption you use!</div>
-                </div>
-                <div class="caption img-jquery" data-animate="slideAppearDownToUp" data-delay="200">
-                  <img src="{{MEDIA_URL}}img/jquery.png">
-                </div>
-              </div>
-  	    		</li>
-  	    	</ul>
-        </div>
-        <a class="slider-control left" href="#" data-jump="prev"><</a>
-        <a class="slider-control right" href="#" data-jump="next">></a>
-        <div class="pages">
-          <a class="page" href="#" data-jump-to="1">1</a>
-          <a class="page" href="#" data-jump-to="2">2</a>
-          <a class="page" href="#" data-jump-to="3">3</a>
-        </div>
-    	</div>
+      			{%for slide in slides%}
+      			<li id="{{slide.id}}" name="{{slide.slide_name}}" index="{{slide.slide_index}}" link="{{slide.slide_link}}">
+      				<div class="slide-body" data-group="slide">
+      					<img src="{{MEDIA_URL}}{{slide.slide_bg}}">
+      					<div class="caption header" data-animate="slideAppearRightToLeft" data-delay="500" data-length="300">
+      						<h2 class="slide_title">{{slide.slide_title}}</h2>
+      						<div class="caption sub" data-animate="slideAppearLeftToRight" data-delay="800" data-length="300">
+      							<span class="slide_abstract">{{slide.slide_abstract}}</span>
+      							<p><a href="{{slide.slide_link}}">Leer más...</a></p>
+      						</div>
+      					</div>
+      					<div class="caption img-twitter" data-animate="slideAppearUpToDown">
+      						<img src="{{MEDIA_URL}}{{slide.slide_icon}}">
+      					</div>
+      				</div>
+      			</li>
+      			{%endfor%}
+      		</ul>
+      	</div>
+
+      	<a class="slider-control left" href="#" data-jump="prev"><</a>
+      	<a class="slider-control right" href="#" data-jump="next">></a>
+      	<div class="pages">
+      		{%for pager in slides_pagers%}
+      			<a class="page" href="#" data-jump-to="{{pager}}">{{pager}}</a>
+      		{%endfor%}
+      	</div>
+      </div>
       <!-- Responsive slider - END -->
       <h3>Importante</h3>
       <pre>
