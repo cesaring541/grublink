@@ -38,4 +38,12 @@ class Media(models.Model):
 
 	def __unicode__(self):
 		return self.url
-		
+
+from django.db.models.signals import post_delete
+from django.dispatch import receiver
+
+@receiver(post_delete, sender=Slide)
+def photo_post_delete_handler(sender, **kwargs):
+    slide = kwargs['instance']
+    storage, path = slide.slide_bg.storage, slide.slide_bg.path
+    storage.delete(path)

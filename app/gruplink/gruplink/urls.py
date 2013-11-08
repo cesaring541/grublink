@@ -8,6 +8,7 @@ from django.conf.urls.i18n import i18n_patterns
 urlpatterns = patterns('',
     # Examples:
     url(r'^$', 'main.views.home'),
+    url(r'^logout', 'main.views.logout'),
     url(r'^administrador', 'main.views.load_admin'),
     
     url(r'^agregar_seccion', 'main.views.add_section'),

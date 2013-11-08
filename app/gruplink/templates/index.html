@@ -20,6 +20,7 @@ Version 2 ############ -->
 <link href="{{STATIC_URL}}css/bootstrap.css" rel="stylesheet">
 <link href="{{STATIC_URL}}css/bootstrap-responsive.css" rel="stylesheet">
 <link href="{{STATIC_URL}}css/responsive-slider.css" rel="stylesheet">
+<link href="{{STATIC_URL}}css/jquery.mCustomScrollbar.css" rel="stylesheet">
 <!--<link href="{{STATIC_URL}}css/flat-ui.css" rel="stylesheet">-->
 
 
@@ -228,7 +229,7 @@ Version 2 ############ -->
 	========================================================== -->		
 
 <!-- HEADER MAIN-->	
-<div class="hero-unit">
+<div class="hero-unit" id="inicio">
 	<!-- slider responsive -->
 	<!-- <div class="container"> -->
       <!-- Responsive slider - START -->
@@ -306,22 +307,150 @@ Version 2 ############ -->
       	</div>
       </div>
       <!-- Responsive slider - END -->
-      <h3>Importante</h3>
-      <pre>
+      <div id="org">
+      	<ul id="aspect_pager">
+      		<li aspect="mision" class="current"><i class="fa-icon-flag"></i><!--h5>Misión</h5--></li>
+      		<li aspect="vision"><i class="fa-icon-road"></i><!--h5>Visión</h5--></li>
+      		<li aspect="propositos"><i class="fa-icon-check"></i><!--h5>Propósitos</h5--></li>
+      		<li aspect="objetivos"><i class="fa-icon-screenshot"></i><!--h5>Objetivos</h5--></li>
+      		<li aspect="competencias"><i class="fa-icon-trophy"></i><!--h5>Competencias</h5--></li>
+      		<li aspect="perfiles"><i class="fa-icon-group"></i><!--h5>Perfiles</h5--></li>
+      	</ul>
+      	<ul id="aspect_display">
+      		<li id="mision">
+      			<h3>Misión</h3>
+      			<p>
+      				El programa de Ingeniería de Sistemas y Computación pretende fomentar en el futuro profesional un pensamiento crítico, ético, innovador en lo tecnológico e investigativo, para la construcción y aplicación permanente del conocimiento en las tecnologías informáticas, que den solución a las necesidades de su contexto, contribuyendo al crecimiento social del entorno.
+      			</p>
+      		</li>
+      		<li id="vision" style="display:block;">
+      			<h3>Visión</h3>
+      			<p>
+      				El programa de Ingeniería de Sistemas y Computación se proyecta como un núcleo de saberes apoyado en una estructura curricular flexible, un cuerpo administrativo idóneo, una infraestructura física actualizada; acorde con los avances tecnológicos del área, y una comunidad académica innovadora, comprometida con la investigación, que permita interactuar con la universalidad de la informática; formando profesionales con pensamiento crítico, ético, humanístico e investigativo.
+      			</p>
+      			<p>
+      				Para cumplir la misión y los objetivos propuestos, el programa contará con docentes altamente calificados, espacios adecuados para la investigación, acceso a redes de comunicación, laboratorios, software y el soporte económico para el mantenimiento y renovación de dichos recursos. Además, se contará con convenios interdisciplinarios e interinstitucionales, nacionales e internacionales.
+      			</p>
+      		</li>
+      		<li id="propositos">
+      			<h3>Propósitos</h3>
+      			<p>
+      				El programa de Ingeniería de Sistemas y Computación tiene como propósito la formación de profesionales capaces de interactuar con su entorno en el medio social, político y económico. Este ingeniero debe adquirir una preparación en el quehacer científico, tanto en el conocimiento de las ciencias básicas, como en el campo investigativo, para producir conocimiento y aplicarlo en el campo de los sistemas y la computación.
+      			</p>
+      		</li>
 
-     
-		<h4 class="inner">Misión</h4>
-		
-      bla bla bla 
+      		<li id="objetivos">
+      			<h3>Objetivos</h3>
+      			<h4>Objetivo General del Programa:</h4>
+				<p>
+					Formar profesionales íntegros en ingeniería de sistemas y computación, capaces de proveer soluciones enmarcadas en conceptos de calidad a problemas del entorno, aplicando técnicas, métodos y herramientas acordes con los avances de la informática.
+				</p>
+				<h4>Objetivo Específicos:</h4>
+				<ul>
+					<li>
+						Promover la formación humanística, como parte del desarrollo integral 
+						del profesional. 
+					</li>
+					<li>Formar un profesional con conocimientos en ciencias básicas, técnicas y
+						de profundización de la profesión.
+					</li> 
+					<li>
+						Incentivar al estudiante para que analice los diferentes conocimientos y 
+						desarrolle su creatividad e innovación, necesarias en la generación de nuevas 
+						herramientas o procedimientos para la solución de problemas.
+					</li>
+					<li>
+						Desarrollar en el estudiante habilidades investigativas, a través de metodologías 
+						y técnicas del proceso investigativo.
+					</li>
+				</ul>
+      		</li>
 
-      <h4 class="inner">Visión</h4>
-		
-      bla bla bla 
+      		<li id="competencias">
+      			<h3>Competencias</h3>
+      			<p>
+      				De conformidad con el perfil profesional, la formación en Ingeniería de Sistemas y 
+      				Computación de la Universidad Pedagógica y Tecnológica de Colombia, propenderá 
+      				porque sus egresados desarrollen las siguientes competencias:	
+      			</p>
+				<h4>En el campo humanístico y Social:</h4>
+				<ul>
+					<li>
+						Conocimientos en las ciencias sociales, con el fin de que el 
+						profesional esté en condiciones de comprender los problemas humanos 
+						y organizacionales implícitos en los procesos que se involucran en 
+						las soluciones informáticas.
+					</li>
+					<li>
+						Liderazgo para promover ideas en ventas, saber negociar los proyectos y 
+						generar su propia empresa.
+					</li>
+					<li>
+						Capacidad de trabajo en grupo y destreza de comunicación que le permita integrarse
+						a un entorno empresarial y/o investigativo.
+					</li>
+				</ul>
+				<h4>En el campo científico investigativo:</h4>
+				<ul>
+					<li>
+						Fundamentación en las ciencias básicas, básicas de la ingeniería y la metodología 
+						de la investigación, para entender, generar y aplicar sistemas de información y 
+						elementos computacionales en las actividades industriales, comerciales y de 
+						servicios a la comunidad.
+					</li>
+				</ul>
+				<h4>En el campo de la formación profesional específica:</h4>
+				<ul>
+					<li>
+						Conocimientos y habilidades en el área de la informática, la computación y 
+						la gestión empresarial e industrial, que sean el soporte para el ejercicio 
+						profesional de la Ingeniería de Sistemas y Computación.
+					</li>
+				</ul>
+      		</li>
+      		<li id="perfiles">
+      			<h3>Perfiles</h3>
+      			<h4>Perfil Profesional:</h4>
+      			<p>El egresado del programa de Ingeniería de Sistemas y Computación debe tener capacidades para:</p>
+				<ul>
+					<li>
+						Aplicar el proceso de desarrollo de soluciones informáticas (evaluación, gestión, 
+						planificación, análisis, diseño, implementación, implantación, mantenimiento, 
+						control y mercadeo) a los problemas del entorno.
+					</li>
+					<li>
+						Definir y conceptualizar modelos y comportamientos de sistemas complejos, a partir
+						de las teorías de las ciencias básicas y de la computación orientada al desarrollo 
+						de software. 
+					</li> 
+					<li>
+						Participar en grupos interdisciplinarios de investigación y campo laboral, asumiendo 
+						una actitud de liderazgo, crítica, científica y ética, para desarrollar proyectos 
+						informáticos y de comunicaciones utilizando nuevas tecnologías.
+					</li>
+				</ul>
+				<h4>Perfil Ocupacional:</h4>
+				<p>
+					El Ingeniero de Sistemas y Computación de la UPTC estará capacitado para desempeñarse como:					
+				</p>
+				<ul>
+					<li>Consultor, administrador y gestor de proyectos informáticos.</li>
+					<li>Analista, diseñador y evaluador de sistemas informáticos.</li>
+					<li>Programador y soporte de sistemas de información en desarrollo o producción.</li>
+					<li>Diseñador, modelador, desarrollador y director de proyectos de software.</li>
+					<li>Asesor y/o coordinador en la implantación de nuevas tecnologías de la información y las comunicaciones.</li>
+				</ul>
+      		</li>
+      	</ul>
+      </div>
 
-      <h4 class="inner">Objetivos</h4>
-		
-      bla bla bla 
-		</pre>
+
+
+
+
+ 
+
+
     <!--</div> -->
 
     <!-- end slider responsive -->
@@ -668,6 +797,7 @@ Version 2 ############ -->
  <script src="{{STATIC_URL}}js/bootstrap.min.js"></script>
  <script src="{{STATIC_URL}}js/responsive-slider.js"></script>
  <script src="{{STATIC_URL}}js/main.js"></script>
+ <script src="{{STATIC_URL}}js/jquery.mCustomScrollbar.concat.min.js"></script>
 
 <!-- gMap PLUGIN -->
 <!-- <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script> -->

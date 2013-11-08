@@ -63,7 +63,7 @@
       },
       jump: function(slide, transitionTime, noanimation) {
 
-        $(this.$slides[slide]).next().addClass('active').siblings().removeClass('active');
+        $(this.$slides[slide]).next().addClass('showed').siblings().removeClass('showed');
 
         var animateOptions, gWidth, r, step;
         if (transitionTime == null) {
@@ -214,7 +214,7 @@
         var $firstSlide, $lastSlide, data, slides;
         options = $.metadata ? $.extend({}, options, $this.metadata()) : options;
         slides = $this.find('ul li');
-        $(slides[0]).addClass('active');
+        $(slides[0]).addClass('showed');
         if (slides.length > 1) {
           $firstSlide = $(slides[0]);
           $lastSlide = $(slides[slides.length - 1]);

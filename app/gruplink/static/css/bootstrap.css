@@ -988,7 +988,7 @@ code {
   border: 1px solid #e1e1e8;
 }
 
-pre {
+pre{
   display: block;
   padding: 9.5px;
   margin: 0 0 10px;
@@ -1004,6 +1004,25 @@ pre {
   -webkit-border-radius: 4px;
      -moz-border-radius: 4px;
           border-radius: 4px;
+}
+
+#org {
+  display: table;
+  table-layout:fixed;
+  overflow: hidden;
+  width: 100%;
+  margin: 20px 0 10px;
+  font-size: 13px;
+  line-height: 3px;
+  word-break: break-all;
+  word-wrap: break-word;
+  background-color: #f5f5f5;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  border-radius: 8px;
+  
+
 }
 
 pre.prettyprint {

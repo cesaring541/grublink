@@ -7,6 +7,10 @@ from main.models import Section,Slide
 
 from django.utils import translation
 
+def logout(request):
+	del request.session['user']
+	return HttpResponseRedirect("/")
+
 def load_admin(request):
 	request.session['user']='admin'
 	return HttpResponseRedirect("/")
