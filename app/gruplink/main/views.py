@@ -3,7 +3,7 @@
 
 from django.shortcuts import render_to_response, HttpResponseRedirect
 from django.template import RequestContext
-from main.models import Section,Slide
+from main.models import Section,Slide, Aspect
 
 from django.utils import translation
 
@@ -20,8 +20,14 @@ def home(request):
 	sections = Section.objects.filter(section_lang=lang).order_by('section_index')
 	slides=Slide.objects.all().order_by('slide_index')
 	slides_pagers=range(1,len(slides)+1)
+	aspects= Aspect.objects.all()
 
-	return render_to_response ('index.html', {'sections':sections, 'slides':slides, 'slides_pagers':slides_pagers}, context_instance=RequestContext(request))
+	return render_to_response ('index.html', 
+							  	{'sections':sections, 
+							  	 'slides':slides, 
+							  	 'slides_pagers':slides_pagers,
+							  	 'aspects':aspects
+							  	}, context_instance=RequestContext(request))
 
 def add_section(request):
 

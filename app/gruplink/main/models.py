@@ -39,6 +39,14 @@ class Media(models.Model):
 	def __unicode__(self):
 		return self.url
 
+class Aspect(models.Model):
+	title=models.CharField(max_length=100,null=False, unique=True)
+	icon_name=models.CharField(max_length=50,null=False)
+	content=models.CharField(max_length=10000,null=False)
+	index=models.IntegerField(null=False)
+	lang=models.CharField(max_length=2,null=False)
+
+
 from django.db.models.signals import post_delete
 from django.dispatch import receiver
 

@@ -14,544 +14,271 @@ Version 2 ############ -->
 <meta name="description" content="responsive parallax Bootstrap template">
 <meta name="author" content="ArtLabs">
 
-<!-- ######################## Styles ######################
-	=======================================================-->
-<link href="{{STATIC_URL}}css/animate.min.css" rel="stylesheet">
-<link href="{{STATIC_URL}}css/bootstrap.css" rel="stylesheet">
-<link href="{{STATIC_URL}}css/bootstrap-responsive.css" rel="stylesheet">
-<link href="{{STATIC_URL}}css/responsive-slider.css" rel="stylesheet">
-<link href="{{STATIC_URL}}css/jquery.mCustomScrollbar.css" rel="stylesheet">
-<!--<link href="{{STATIC_URL}}css/flat-ui.css" rel="stylesheet">-->
+<!-- Bootstrap -->
+<link href="{{STATIC_URL}}css/bootstrap/bootstrap.css" rel="stylesheet">
+<link href="{{STATIC_URL}}css/bootstrap/bootstrap-responsive.css" rel="stylesheet">
 
 
-<!-- ####################################################################
-	!important THIS FILE -= style.css =- ON BOTTOM OF BOOTSTRAP STYLEs  LIST
-	It override bootstrap def. style
-===================================================-->
-<link href="{{STATIC_URL}}css/style.css" rel="stylesheet">
+<!-- Plugins -->
+<link href="{{STATIC_URL}}css/plugins/animate.min.css" rel="stylesheet">
+<link href="{{STATIC_URL}}css/plugins/responsive-slider.css" rel="stylesheet">
+<link href="{{STATIC_URL}}css/plugins/jquery.mCustomScrollbar.css" rel="stylesheet">
 
-<!-- FontAwesome styles (iconic font)-->
-<link href="{{STATIC_URL}}css/font-awesome.min.css" rel="stylesheet"> 
-<!-- prettyPhoto styles -->
+<!-- Fonts -->
+<link href="{{STATIC_URL}}css/fonts/font-awesome.min.css" rel="stylesheet"> 
 
-<!-- Gallery inlarge script styles-->
-<link href="{{STATIC_URL}}css/prettyPhoto.css" rel="stylesheet" type="text/css" />
+<!-- General Stylesheet -->
+<link href="{{STATIC_URL}}css/general.css" rel="stylesheet">
 
 <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
 <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
 	
-<!-- Google web fonts -->
-<!-- <link href='http://fonts.googleapis.com/css?family=Noto+Sans:400,700,400italic,700italic&amp;subset=latin,latin-ext' rel='stylesheet' type='text/css'> -->
+<!--Favicon -->
+<link rel="shortcut icon" href="{{MEDIA_URL}}img/favicon.ico">
 
-<!-- Le fav and touch icons -->
-<link rel="shortcut icon" href="../static/ico/favicon.ico">
-<link rel="apple-touch-icon-precomposed" sizes="144x144" href="../static/ico/apple-touch-icon-144-precomposed.png">
-<link rel="apple-touch-icon-precomposed" sizes="114x114" href="../static/ico/apple-touch-icon-114-precomposed.png">
-<link rel="apple-touch-icon-precomposed" sizes="72x72" href="../static/ico/apple-touch-icon-72-precomposed.png">
-<link rel="apple-touch-icon-precomposed" href="../static/ico/apple-touch-icon-57-precomposed.png">
 </head>
 
 
-<style type="text/css">
-	
-	.open:last-child > .dropdown-toggle{
-		background: #004363 !important;
-		border-radius: 0 5px 5px 0 !important;
-	}
-	.open:first-child a{
-		background: #004363 !important;
-		border-radius:5px 0 0 5px;
-	}
-
-
-</style>
 <body data-spy="scroll" data-target=".scroller-spy">
 
-<!--################# START MAIN-WRAPPER ####################
-	============================================================ --> 
 <div class="main-wrapper">
 
-			<!--START SCROLL EVENTS ELEMENTS--> 
-					<!-- !!CLICK EVENT TOP SCROLL-->
-					<div class="top-link-click right hidden-phone"></div>
-					<!-- !!HOVER EVENT TOP SCROLL-->
-					<div class="top-link right hidden-phone"></div>
-					<!-- !!HOVER EVENT TOP SCROLL-->
-					<div class="bottom-link right hidden-phone"></div>
-					<!-- !!CLICK EVENT TOP SCROLL-->
-					<div class="bottom-link-click right hidden-phone"></div>
-					<div class="top-corner"></div>
-					<div class="bottom-corner"></div>
-			<!--/. SCROLL EVENTS ELEMENTS--> 
+	<div class="top-link-click right hidden-phone"></div>
+	<div class="top-link right hidden-phone"></div>
+	<div class="bottom-link right hidden-phone"></div>
+	<div class="bottom-link-click right hidden-phone"></div>
+	<div class="top-corner"></div>
+	<div class="bottom-corner"></div>
 
-	<!-- ######################  START HEADER ######################
-		==============================================================-->
 	<header class="headertop needhead" id="header-section">
 	
-		<!-- START PARALLAX BG -->
 		<div class="innerbg">
 	
 			<div class="leftbg"></div>
 			
+			<!-- Top navigation -->
+			<div class="nav-top"> 
+				<!-- navbar-fixed-top -->
+				<div class="navbar navbar-fixed-top navbar-inverse" id="top-nav"> 
+					<!-- INNER-->
+					<div class="navbar-inner">
+					    <div class="container"> 
+							
+							<!-- Collapse button -->	
+							<button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+							</button>
+							
+							<!-- TOP NAVIGATION-->
+							<div id="main-nav" class="scroller-spy">
+								<nav class="nav-collapse collapse" >
+
+									<img src="{{MEDIA_URL}}img/logo_{{request.LANGUAGE_CODE}}.png" alt="Logo">
+
+									<ul class="nav pull-right" id="nav">
+
+										{%for section in sections%}
+										<li>
+											<a href="#{{section.section_name}}">{{section.section_title}}</a>
+										</li>
+										{%endfor%}
+
+										{%if request.session.user == 'admin'%}
+										<ul class="nav pull-right" id="top_nav_admin">
+
+											<li class="dropdown">
+												<a class="dropdown-toggle" href="#" data-toggle="dropdown"><i class="fa-icon-plus"></i></a>
+												<div class="dropdown-menu">
+													<form action="agregar_seccion" method="POST">
+														{% csrf_token %}
+														<input type="text" name="section_name" placeholder="Nombre de la seccion"/>
+														<input type="text" name="section_title" placeholder="Título de la seccion"/>
+														<input type="text" name="section_index" placeholder="Índice de la seccion"/>
+														<input type="hidden" name="section_lang" value="es"/>
+														<input type="submit" class="btn btn-success" value="Enviar"/>
+													</form>
+												</div>
+											</li>
+											<li class="dropdown">
+												<a class="dropdown-toggle" href="#" data-toggle="dropdown"><i class="fa-icon-pencil"></i></a>
+												<div class="dropdown-menu">
+													<form id="update_sections_form" action="actualizar_secciones" method="POST">
+														{% csrf_token %}
+														<div class="table-responsive">
+															<table class="table table-condensed table-hover v">
+																<thead>
+																	<tr>
+																		<th>ID</th>
+																		<th>Nombre</th>
+																		<th>Título</th>
+																		<th>Posicion</th>
+																		<th></th>
+																	</tr>
+																</thead>
+																<tbody id="sections_edit_fields">
+																	{%if sections%}
+																	{%for section in sections%}
+																	<tr>
+																		<td>{{section.id}}</td>
+																		<td><input type="text" field="section_name" value="{{section.section_name}}" placeholder="Nombre"></td>
+																		<td><input type="text" field="section_title" value="{{section.section_title}}" placeholder="Título"></td>
+																		<td><input type="text" field="section_index" value="{{section.section_index}}" placeholder="Índice"></td>
+																		<td>
+																			<a class="btn btn-danger" href="borrar_seccion/{{section.id}}">
+																				<i class="fa-icon-trash"></i>
+																			</a>
+																		</td>
+																	</tr>
+																	{%endfor%}
+																	{%else%}
+																	<tr>
+																		<td colspan="5">No se han definido secciones</td>
+																	</tr>
+																	{%endif%}
+																</tbody>
+															</table>
+														</div>
+														<input type="hidden" id="data" name="data"/>
+													</form>
+													<button id="submit_section_updates" class="btn btn-success" >Guardar</button>
+												</div>
+											</li>
+										</ul>
+										{%endif%}
+										<div class="btn-group" style="line-height:40px;display: inline-block;">
+											<button class="btn btn-medium"><i class="fa-icon-globe"></i> {%trans "language"%}</button>
+											<button class="btn btn-medium dropdown-toggle" data-toggle="dropdown">
+												<span class="caret"></span>
+											</button>
+											<ul class="dropdown-menu" id="setlang">
+												{% get_language_info_list for LANGUAGES as languages %}
+												{% for language in languages %}
+												<li>
+													<a lang="{{language.code}}" href="#">{{ language.name_local|capfirst }} ({{ language.code }})</a>
+												</li>
+												{% endfor %}
+											</ul>
+										</div>	
+										<form action="/i18n/setlang/" method="post" id="setlang_form">
+											{% csrf_token %}
+											<input name="next" type="hidden" value="/" />
+											<input name="language" id ="lang" type="hidden"/>
+										</form>	
+									</ul>			
+								</nav>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
 			
-	<!-- ###################### START TOP MENU ####################
-		============================================================== -->
+			<!-- Slider -->
+			<div class="hero-unit" id="inicio">
 
-<div class="nav-top"> 
-	<!-- navbar-fixed-top -->
-    <div class="navbar navbar-fixed-top navbar-inverse" id="top-nav"> 
-	<!-- INNER-->
-      <div class="navbar-inner">
-        <div class="container"> 
-		
-		<!-- Collapse button -->	
-			<button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-			</button>
+				<div class="responsive-slider" data-spy="responsive-slider" data-autoplay="true">
+					{%if request.session.user == 'admin' %}
+					<div id="slides_admin_toolbar" class="btn-group">
+						<a href="#" class="btn" id="btn_add_slide"><i class="fa-icon-plus"></i></a>
+						<a href="#" class="btn" id="btn_edit_slide"><i class="fa-icon-edit"></i></a>
+						<a href="#" class="btn" id="btn_del_slide"><i class="fa-icon-trash"></i></a>
+						<a href="#" class="btn"><i class="fa-icon-cog"></i></a>
+					</div>
 
-									
-			 <!-- TOP NAVIGATION-->
-			 <div id="main-nav" class="scroller-spy">
-				<nav class="nav-collapse collapse" >
+					<div id="add_slide_form">
+						<form action="agregar_slide" method="post" id="setlang_form" enctype="multipart/form-data">
+							{% csrf_token %}
+							<input type="text" name="name" placeholder="Nombre de slide"/>
+							<input type="text" name="title" placeholder="Título de slide"/>
+							<input type="text" name="abstract" placeholder="Resumen de slide"/>
+							<input type="text" name="link" placeholder="Enlace de slide"/>
+							<button class="btn btn-medium btn-info" id="zo">Fondo</button><button class="btn btn-medium btn-info" id="zob">Icono</button>
+							<input style="display:none;" type="file" id="z" name="bg" placeholder="Imagen de fondo"/>
+							<input style="display:none;" type="file" id="zp" name="icon" placeholder="Ícono acompañante"/>
+							<input type="text" name="index" placeholder="Posicion"/>
+							<input type="submit" class="btn btn-success" value="Guardar">
+						</form>	
+					</div>
 
-				<img src="{{MEDIA_URL}}img/logo_{{request.LANGUAGE_CODE}}.png" alt="Logo">
-
-
-				  <ul class="nav pull-right" id="nav">
-
-				  	{%for section in sections%}
-				  		<li>
-				  			<a href="#{{section.section_name}}">{{section.section_title}}</a>
-				  		</li>
-				  	{%endfor%}
-					<!-- <li class="active"><a href="#header-section">Inicio</a> </li>
-					<li><a href="#features-section">La escuela</a> </li>
-					<li><a href="#team-section">Investigación</a> </li>
-					<li><a href="#contact-section">Contacto</a> </li> -->
-					{%if request.session.user == 'admin'%}
-					<ul class="nav pull-right" style="display: inline-block;
-					background: rgb(228, 228, 228);
-					line-height: 10px;
-					margin: 0 0 0 10px;
-					padding: 0;
-					border-radius: 5px;">
-					
-						<li class="dropdown">
-							<a class="dropdown-toggle" href="#" data-toggle="dropdown"><i class="fa-icon-plus"></i></a>
-							<div class="dropdown-menu" style="padding: 15px; padding-bottom: 0px; text-align: right">
-								<form action="agregar_seccion" method="POST">
-									{% csrf_token %}
-									<input type="text" name="section_name" placeholder="Nombre de la seccion"/>
-									<input type="text" name="section_title" placeholder="Título de la seccion"/>
-									<input type="text" name="section_index" placeholder="Índice de la seccion"/>
-									<input type="hidden" name="section_lang" value="es"/>
-									<input type="submit" class="btn btn-success" value="Enviar"/>
-								</form>
-							</div>
-						</li>
-						<li class="dropdown">
-							<a class="dropdown-toggle" href="#" data-toggle="dropdown"><i class="fa-icon-pencil"></i></a>
-							<div class="dropdown-menu" style="padding: 15px; padding-bottom: 20px;">
-								<form id="update_sections_form" action="actualizar_secciones" method="POST">
-									{% csrf_token %}
-									<div class="table-responsive">
-										<table class="table table-condensed table-hover v">
-											<thead>
-												<tr>
-													<th>ID</th>
-													<th>Nombre</th>
-													<th>Título</th>
-													<th>Posicion</th>
-													<th></th>
-												</tr>
-											</thead>
-											<tbody id="sections_edit_fields">
-											{%if sections%}
-												{%for section in sections%}
-												<tr>
-													<td>{{section.id}}</td>
-													<td><input type="text" field="section_name" value="{{section.section_name}}" placeholder="Nombre"></td>
-													<td><input type="text" field="section_title" value="{{section.section_title}}" placeholder="Título"></td>
-													<td><input type="text" field="section_index" value="{{section.section_index}}" placeholder="Índice"></td>
-													<td>
-														<a class="btn btn-danger" href="borrar_seccion/{{section.id}}">
-															<i class="fa-icon-trash"></i>
-														</a>
-													</td>
-												</tr>
-												{%endfor%}
-											{%else%}
-												<tr>
-													<td colspan="5">No se han definido secciones</td>
-												</tr>
-											{%endif%}
-											</tbody>
-										</table>
-									</div>
-									<input type="hidden" id="data" name="data"/>
-								</form>
-								<button id="submit_section_updates" class="btn btn-success" >Guardar</button>
-							</div>
-						</li>
-					</ul>
+					<div id="edit_slide_form">
+						<form action="actualizar_slide" method="post" enctype="multipart/form-data">
+							{% csrf_token %}
+							<input type="hidden" id="ed_slide_id" name="id"/>
+							<input type="text" id="ed_slide_name" name="name" placeholder="Nombre de slide"/>
+							<input type="text" id="ed_slide_title" name="title" placeholder="Título de slide"/>
+							<input type="text" id="ed_slide_abstract" name="abstract" placeholder="Resumen de slide"/>
+							<input type="text" id="ed_slide_link" name="link" placeholder="Enlace de slide"/>
+							<button class="btn btn-medium btn-info" id="zu">Fondo</button><button class="btn btn-medium btn-info" id="zub">Icono</button>
+							<input style="display:none;" type="file" id="z2u" name="bg" placeholder="Imagen de fondo"/>
+							<input style="display:none;" type="file" id="zup" name="icon" placeholder="Ícono acompañante"/>
+							<input type="text" id="ed_slide_index" name="index" placeholder="Posicion"/>
+							<input type="submit" class="btn btn-success" value="Actualizar">
+						</form>	
+					</div>
 					{%endif%}
-					<div class="btn-group" style="line-height:40px;display: inline-block;">
-						<button class="btn btn-medium"><i class="fa-icon-globe"></i> {%trans "language"%}</button>
-						<button class="btn btn-medium dropdown-toggle" data-toggle="dropdown">
-							<span class="caret"></span>
-						</button>
-						<ul class="dropdown-menu" id="setlang">
-							{% get_language_info_list for LANGUAGES as languages %}
-							{% for language in languages %}
-							<li>
-								<a lang="{{language.code}}" href="#">{{ language.name_local }} ({{ language.code }})</a>
+
+					<div class="slides" data-group="slides">
+						<ul>
+							{%for slide in slides%}
+							<li id="{{slide.id}}" name="{{slide.slide_name}}" index="{{slide.slide_index}}" link="{{slide.slide_link}}">
+								<div class="slide-body" data-group="slide">
+									<img src="{{MEDIA_URL}}{{slide.slide_bg}}">
+									<div class="caption header" data-animate="slideAppearRightToLeft" data-delay="500" data-length="300">
+										<h2 class="slide_title">{{slide.slide_title}}</h2>
+										<div class="caption sub" data-animate="slideAppearLeftToRight" data-delay="800" data-length="300">
+											<span class="slide_abstract">{{slide.slide_abstract}}</span>
+											<p><a href="{{slide.slide_link}}">Leer más...</a></p>
+										</div>
+									</div>
+									<div class="caption img-twitter" data-animate="slideAppearUpToDown">
+										<img src="{{MEDIA_URL}}{{slide.slide_icon}}">
+									</div>
+								</div>
 							</li>
-							{% endfor %}
+							{%endfor%}
 						</ul>
-					</div>	
-					<form action="/i18n/setlang/" method="post" id="setlang_form">
-						{% csrf_token %}
-						<input name="next" type="hidden" value="/" />
-						<input name="language" id ="lang" type="hidden"/>
-					</form>				
-				</nav>
-			  </div>
-		  
-        </div>
-      </div>
-    </div>
-</div>
-<!-- ############################ END TOP MENU ###############
-	========================================================== -->		
+					</div>
 
-<!-- HEADER MAIN-->	
-<div class="hero-unit" id="inicio">
-	<!-- slider responsive -->
-	<!-- <div class="container"> -->
-      <!-- Responsive slider - START -->
-      <div class="responsive-slider" data-spy="responsive-slider" data-autoplay="true">
-      	{%if request.session.user == 'admin' %}
-      	<div id="slides_admin_toolbar" class="btn-group" 
-      		 style="position:absolute;z-index:1;top:10px;left:10px;">
+					{%if slides%}
+					<a class="slider-control left" href="#" data-jump="prev"><</a>
+					<a class="slider-control right" href="#" data-jump="next">></a>
+					<div class="pages">
+						{%for pager in slides_pagers%}
+						<a class="page" href="#" data-jump-to="{{pager}}">{{pager}}</a>
+						{%endfor%}
+					</div>
+					{%else%}
+					<h2 style="text-align:center; vertical-align:middle; color: green;">No se han agregado slides</h2>
+					{%endif%}
+				</div>
 
-      		<a href="#" class="btn" id="btn_add_slide"><i class="fa-icon-plus"></i></a>
-      		<a href="#" class="btn" id="btn_edit_slide"><i class="fa-icon-edit"></i></a>
-      		<a href="#" class="btn" id="btn_del_slide"><i class="fa-icon-trash"></i></a>
-      		<a href="#" class="btn"><i class="fa-icon-cog"></i></a>
-      	</div>
-      	<div id="add_slide_form" 
-      	style="box-shadow:0 0 10px black;display:none;position:absolute;z-index:1;top:50px;left:10px;background:white;border-radius:5px;width:250px;text-align:center;padding:20px;">
-      		<form action="agregar_slide" method="post" id="setlang_form" enctype="multipart/form-data">
-      			{% csrf_token %}
-      			<input type="text" name="name" placeholder="Nombre de slide"/>
-      			<input type="text" name="title" placeholder="Título de slide"/>
-      			<input type="text" name="abstract" placeholder="Resumen de slide"/>
-      			<input type="text" name="link" placeholder="Enlace de slide"/>
-      			<button class="btn btn-medium btn-info" id="zo">Fondo</button><button class="btn btn-medium btn-info" id="zob">Icono</button>
-      			<input style="display:none;" type="file" id="z" name="bg" placeholder="Imagen de fondo"/>
-      			<input style="display:none;" type="file" id="zp" name="icon" placeholder="Ícono acompañante"/>
-      			<input type="text" name="index" placeholder="Posicion"/>
-      			<input type="submit" class="btn btn-success" value="Guardar">
-      		</form>	
-      	</div>
-      	<div id="edit_slide_form" 
-      	style="box-shadow:0 0 10px black;display:none;position:absolute;z-index:1;top:50px;left:10px;background:white;border-radius:5px;width:250px;text-align:center;padding:20px;">
-      		<form action="actualizar_slide" method="post" enctype="multipart/form-data">
-      			{% csrf_token %}
-      			<input type="hidden" id="ed_slide_id" name="id"/>
-      			<input type="text" id="ed_slide_name" name="name" placeholder="Nombre de slide"/>
-      			<input type="text" id="ed_slide_title" name="title" placeholder="Título de slide"/>
-      			<input type="text" id="ed_slide_abstract" name="abstract" placeholder="Resumen de slide"/>
-      			<input type="text" id="ed_slide_link" name="link" placeholder="Enlace de slide"/>
-      			<button class="btn btn-medium btn-info" id="zu">Fondo</button><button class="btn btn-medium btn-info" id="zub">Icono</button>
-      			<input style="display:none;" type="file" id="z2u" name="bg" placeholder="Imagen de fondo"/>
-      			<input style="display:none;" type="file" id="zup" name="icon" placeholder="Ícono acompañante"/>
-      			<input type="text" id="ed_slide_index" name="index" placeholder="Posicion"/>
-      			<input type="submit" class="btn btn-success" value="Actualizar">
-      		</form>	
-      	</div>
-      	{%endif%}
-
-      	<div class="slides" data-group="slides">
-      		<ul>
-      			{%for slide in slides%}
-      			<li id="{{slide.id}}" name="{{slide.slide_name}}" index="{{slide.slide_index}}" link="{{slide.slide_link}}">
-      				<div class="slide-body" data-group="slide">
-      					<img src="{{MEDIA_URL}}{{slide.slide_bg}}">
-      					<div class="caption header" data-animate="slideAppearRightToLeft" data-delay="500" data-length="300">
-      						<h2 class="slide_title">{{slide.slide_title}}</h2>
-      						<div class="caption sub" data-animate="slideAppearLeftToRight" data-delay="800" data-length="300">
-      							<span class="slide_abstract">{{slide.slide_abstract}}</span>
-      							<p><a href="{{slide.slide_link}}">Leer más...</a></p>
-      						</div>
-      					</div>
-      					<div class="caption img-twitter" data-animate="slideAppearUpToDown">
-      						<img src="{{MEDIA_URL}}{{slide.slide_icon}}">
-      					</div>
-      				</div>
-      			</li>
-      			{%endfor%}
-      		</ul>
-      	</div>
-
-      	<a class="slider-control left" href="#" data-jump="prev"><</a>
-      	<a class="slider-control right" href="#" data-jump="next">></a>
-      	<div class="pages">
-      		{%for pager in slides_pagers%}
-      			<a class="page" href="#" data-jump-to="{{pager}}">{{pager}}</a>
-      		{%endfor%}
-      	</div>
-      </div>
-      <!-- Responsive slider - END -->
-      <div id="org">
-      	<ul id="aspect_pager">
-      		<li aspect="mision" class="current"><i class="fa-icon-flag"></i><!--h5>Misión</h5--></li>
-      		<li aspect="vision"><i class="fa-icon-road"></i><!--h5>Visión</h5--></li>
-      		<li aspect="propositos"><i class="fa-icon-check"></i><!--h5>Propósitos</h5--></li>
-      		<li aspect="objetivos"><i class="fa-icon-screenshot"></i><!--h5>Objetivos</h5--></li>
-      		<li aspect="competencias"><i class="fa-icon-trophy"></i><!--h5>Competencias</h5--></li>
-      		<li aspect="perfiles"><i class="fa-icon-group"></i><!--h5>Perfiles</h5--></li>
-      	</ul>
-      	<ul id="aspect_display">
-      		<li id="mision">
-      			<h3>Misión</h3>
-      			<p>
-      				El programa de Ingeniería de Sistemas y Computación pretende fomentar en el futuro profesional un pensamiento crítico, ético, innovador en lo tecnológico e investigativo, para la construcción y aplicación permanente del conocimiento en las tecnologías informáticas, que den solución a las necesidades de su contexto, contribuyendo al crecimiento social del entorno.
-      			</p>
-      		</li>
-      		<li id="vision" style="display:block;">
-      			<h3>Visión</h3>
-      			<p>
-      				El programa de Ingeniería de Sistemas y Computación se proyecta como un núcleo de saberes apoyado en una estructura curricular flexible, un cuerpo administrativo idóneo, una infraestructura física actualizada; acorde con los avances tecnológicos del área, y una comunidad académica innovadora, comprometida con la investigación, que permita interactuar con la universalidad de la informática; formando profesionales con pensamiento crítico, ético, humanístico e investigativo.
-      			</p>
-      			<p>
-      				Para cumplir la misión y los objetivos propuestos, el programa contará con docentes altamente calificados, espacios adecuados para la investigación, acceso a redes de comunicación, laboratorios, software y el soporte económico para el mantenimiento y renovación de dichos recursos. Además, se contará con convenios interdisciplinarios e interinstitucionales, nacionales e internacionales.
-      			</p>
-      		</li>
-      		<li id="propositos">
-      			<h3>Propósitos</h3>
-      			<p>
-      				El programa de Ingeniería de Sistemas y Computación tiene como propósito la formación de profesionales capaces de interactuar con su entorno en el medio social, político y económico. Este ingeniero debe adquirir una preparación en el quehacer científico, tanto en el conocimiento de las ciencias básicas, como en el campo investigativo, para producir conocimiento y aplicarlo en el campo de los sistemas y la computación.
-      			</p>
-      		</li>
-
-      		<li id="objetivos">
-      			<h3>Objetivos</h3>
-      			<h4>Objetivo General del Programa:</h4>
-				<p>
-					Formar profesionales íntegros en ingeniería de sistemas y computación, capaces de proveer soluciones enmarcadas en conceptos de calidad a problemas del entorno, aplicando técnicas, métodos y herramientas acordes con los avances de la informática.
-				</p>
-				<h4>Objetivo Específicos:</h4>
-				<ul>
-					<li>
-						Promover la formación humanística, como parte del desarrollo integral 
-						del profesional. 
-					</li>
-					<li>Formar un profesional con conocimientos en ciencias básicas, técnicas y
-						de profundización de la profesión.
-					</li> 
-					<li>
-						Incentivar al estudiante para que analice los diferentes conocimientos y 
-						desarrolle su creatividad e innovación, necesarias en la generación de nuevas 
-						herramientas o procedimientos para la solución de problemas.
-					</li>
-					<li>
-						Desarrollar en el estudiante habilidades investigativas, a través de metodologías 
-						y técnicas del proceso investigativo.
-					</li>
-				</ul>
-      		</li>
-
-      		<li id="competencias">
-      			<h3>Competencias</h3>
-      			<p>
-      				De conformidad con el perfil profesional, la formación en Ingeniería de Sistemas y 
-      				Computación de la Universidad Pedagógica y Tecnológica de Colombia, propenderá 
-      				porque sus egresados desarrollen las siguientes competencias:	
-      			</p>
-				<h4>En el campo humanístico y Social:</h4>
-				<ul>
-					<li>
-						Conocimientos en las ciencias sociales, con el fin de que el 
-						profesional esté en condiciones de comprender los problemas humanos 
-						y organizacionales implícitos en los procesos que se involucran en 
-						las soluciones informáticas.
-					</li>
-					<li>
-						Liderazgo para promover ideas en ventas, saber negociar los proyectos y 
-						generar su propia empresa.
-					</li>
-					<li>
-						Capacidad de trabajo en grupo y destreza de comunicación que le permita integrarse
-						a un entorno empresarial y/o investigativo.
-					</li>
-				</ul>
-				<h4>En el campo científico investigativo:</h4>
-				<ul>
-					<li>
-						Fundamentación en las ciencias básicas, básicas de la ingeniería y la metodología 
-						de la investigación, para entender, generar y aplicar sistemas de información y 
-						elementos computacionales en las actividades industriales, comerciales y de 
-						servicios a la comunidad.
-					</li>
-				</ul>
-				<h4>En el campo de la formación profesional específica:</h4>
-				<ul>
-					<li>
-						Conocimientos y habilidades en el área de la informática, la computación y 
-						la gestión empresarial e industrial, que sean el soporte para el ejercicio 
-						profesional de la Ingeniería de Sistemas y Computación.
-					</li>
-				</ul>
-      		</li>
-      		<li id="perfiles">
-      			<h3>Perfiles</h3>
-      			<h4>Perfil Profesional:</h4>
-      			<p>El egresado del programa de Ingeniería de Sistemas y Computación debe tener capacidades para:</p>
-				<ul>
-					<li>
-						Aplicar el proceso de desarrollo de soluciones informáticas (evaluación, gestión, 
-						planificación, análisis, diseño, implementación, implantación, mantenimiento, 
-						control y mercadeo) a los problemas del entorno.
-					</li>
-					<li>
-						Definir y conceptualizar modelos y comportamientos de sistemas complejos, a partir
-						de las teorías de las ciencias básicas y de la computación orientada al desarrollo 
-						de software. 
-					</li> 
-					<li>
-						Participar en grupos interdisciplinarios de investigación y campo laboral, asumiendo 
-						una actitud de liderazgo, crítica, científica y ética, para desarrollar proyectos 
-						informáticos y de comunicaciones utilizando nuevas tecnologías.
-					</li>
-				</ul>
-				<h4>Perfil Ocupacional:</h4>
-				<p>
-					El Ingeniero de Sistemas y Computación de la UPTC estará capacitado para desempeñarse como:					
-				</p>
-				<ul>
-					<li>Consultor, administrador y gestor de proyectos informáticos.</li>
-					<li>Analista, diseñador y evaluador de sistemas informáticos.</li>
-					<li>Programador y soporte de sistemas de información en desarrollo o producción.</li>
-					<li>Diseñador, modelador, desarrollador y director de proyectos de software.</li>
-					<li>Asesor y/o coordinador en la implantación de nuevas tecnologías de la información y las comunicaciones.</li>
-				</ul>
-      		</li>
-      	</ul>
-      </div>
-
-
-
-
-
- 
-
-
-    <!--</div> -->
-
-    <!-- end slider responsive -->
-</div>
-
-
-</div><!--/ END PARALLAX BG-->
-</header>
-<!-- / ###################### END MAIN HEADER ####################
-	=============================================================== -->
-			
-
-
-	
-	<!-- ######################## FEATURES SECTION ##################
-	============================================================== -->			
-<section  id="investigacion">
-
-<!-- MARKETING INTRO-->
-<div class="panel first">
-	<div class="container">
-		<div class="row-fluid">
-			<div class="span12 text-center">
-				<span> Grupos de investigación 
-					<span class="inner">Ingenieria de Sistemas y Computación</span>
-				</span>
+				<!-- <div id="org">
+					<ul id="aspect_pager">
+						{%for aspect in aspects%}
+						<li aspect="{{aspect.title}}"><i class="{{aspect.icon_name}}"></i></li>
+						{%endfor%}
+					</ul>
+					<ul id="aspect_display">
+						{%autoescape off%}
+						{%for aspect in aspects%}
+						<li id="{{aspect.title}}">
+							<h3>{{aspect.title}}</h3>
+							{{aspect.content}}
+						</li>
+						{%endfor%}
+						{%endautoescape%}
+					</ul>
+				</div> -->
 			</div>
 		</div>
-	</div>
-</div>
-<!--/ MARKETING INTRO-->
-	<div class="container">
-		
-	<!-- FEATURES HEADER-->
-		<!--<div class="row-fluid">
-			<header class="page-header span12" >
-					<h3>Introducing  <small class="visible-desktop">// Hello! We are BOOTSCROLLER!</small></h3>
-			</header>
-		</div>
-		-->
-	<!-- / FEATURES HEADER-->
+	</header>
 
-	<!-- FEATURES ITEMS-->
-	<div class="row demo-tiles" id="show3">
-	
-       <!-- FEATURE ITEM-->
-        <div class="span3">
-          <div class="feature-box">
-            <img class="feature-box-image" alt="" src="{{MEDIA_URL}}images/illustrations/infinity.png">
-            <h4 class="feature-box-title">GIS</h4>
-            <p>Grupo de investigacion en software</p>
-            <a class="btn btn-primary btn-large btn-block" href="#">Ir a</a>
-          </div>
-        </div>
-		<!-- / FEATURE ITEM-->
-		
-		<!-- FEATURE ITEM-->
-        <div class="span3">
-          <div class="feature-box">
-            <img class="feature-box-image" alt="" src="{{MEDIA_URL}}images/illustrations/colors.png">
-            <h4 class="feature-box-title">INFELCOM</h4>
-            <p>Grupo de Investigación en Informática, Electrónica y Comunicaciones </p>
-            <a   class="btn btn-info btn-large btn-block infelcom" href="#">Ir a</a>
-          </div>
-        </div>
-		<!-- / FEATURE ITEM-->
 
-		<!-- FEATURE ITEM-->
-        <div class="span3">
-          <div class="feature-box">
-            <img class="feature-box-image" alt="" src="{{MEDIA_URL}}images/illustrations/retina.png">
-            <h4 class="feature-box-title">GIMI</h4>
-            <p>Grupo Investigación en Manejo de Información</p>
-            <a class="btn btn-success btn-large btn-block" href="#">Ir a</a>
-          </div>
-		</div>
-		<!--/ FEATURE ITEM-->
-		
-		<!-- FEATURE ITEM-->
-		<div class="span3">
-          <div class="feature-box feature-box-hot">
-            <img class="feature-box-image" alt="" src="{{MEDIA_URL}}images/illustrations/timec.png">
-            <h4 class="feature-box-title">GALASH</h4>
-            <p>Save up to 72 hours for your project kickstarting</p>
-            <a class="btn btn-danger btn-large btn-block" href="#">Ir a</a>
-          </div>
-        </div>
-		<!--/ FEATURE ITEM-->
-		
-	</div> <!-- / ROW-->
-	
-	</div> <!-- CONTAINER-->
-	
 
-</section>
-<!-- / ##################### FEATURES section ###########
-	====================================================== -->
-	
-	
-<!-- ##################### TEAM SECTION ###################
-	======================================================= -->			
 <section class="" id="escuela">
 	
 <!-- TEAM HEADER-->
@@ -559,7 +286,7 @@ Version 2 ############ -->
 		<div class="page-header ">
 			<div class="container">
 				<div class="row-fluid">
-					<h3>NOSOTROS <small class="visible-desktop">La escuela</small></h3>
+					<h3>La escuela <small class="visible-desktop">Quienes somos</small></h3>
 				</div>
 			</div>	
 		</div>
@@ -568,6 +295,25 @@ Version 2 ############ -->
 	
 <!-- TEAM ITEMS -->
 <div class="container">	
+				<div id="org">
+					<ul id="aspect_pager">
+						{%for aspect in aspects%}
+						<li aspect="{{aspect.title}}"><i class="{{aspect.icon_name}}"></i></li>
+						{%endfor%}
+					</ul>
+					<ul id="aspect_display">
+						{%autoescape off%}
+						{%for aspect in aspects%}
+						<li id="{{aspect.title}}">
+							<h3>{{aspect.title}}</h3>
+							{{aspect.content}}
+						</li>
+						{%endfor%}
+						{%endautoescape%}
+					</ul>	
+				</div>
+
+
 	<div class="row-fluid" id="show4">
 		
 <!-- TEAM ITEM-->
@@ -675,8 +421,90 @@ Version 2 ############ -->
 </div><!-- /TEAM ITEM-->
 
 </div>
+</div>
+</section>
 <!--/ROW FLUID--> 
 
+
+<section  id="investigacion">
+
+<!-- MARKETING INTRO-->
+<div class="panel first">
+	<div class="container">
+		<div class="row-fluid">
+			<div class="span12 text-center">
+				<span> Grupos de investigación 
+					<span class="inner">Ingenieria de Sistemas y Computación</span>
+				</span>
+			</div>
+		</div>
+	</div>
+</div>
+<!--/ MARKETING INTRO-->
+	<div class="container">
+		
+	<!-- FEATURES HEADER-->
+		<!--<div class="row-fluid">
+			<header class="page-header span12" >
+					<h3>Introducing  <small class="visible-desktop">// Hello! We are BOOTSCROLLER!</small></h3>
+			</header>
+		</div>
+		-->
+	<!-- / FEATURES HEADER-->
+
+	<!-- FEATURES ITEMS-->
+	<div class="row demo-tiles" id="show3">
+	
+       <!-- FEATURE ITEM-->
+        <div class="span3">
+          <div class="feature-box">
+            <img class="feature-box-image" alt="" src="{{MEDIA_URL}}images/illustrations/infinity.png">
+            <h4 class="feature-box-title">GIS</h4>
+            <p>Grupo de investigacion en software</p>
+            <a class="btn btn-primary btn-large btn-block" href="#">Ir a</a>
+          </div>
+        </div>
+		<!-- / FEATURE ITEM-->
+		
+		<!-- FEATURE ITEM-->
+        <div class="span3">
+          <div class="feature-box">
+            <img class="feature-box-image" alt="" src="{{MEDIA_URL}}images/illustrations/colors.png">
+            <h4 class="feature-box-title">INFELCOM</h4>
+            <p>Grupo de Investigación en Informática, Electrónica y Comunicaciones </p>
+            <a   class="btn btn-info btn-large btn-block infelcom" href="#">Ir a</a>
+          </div>
+        </div>
+		<!-- / FEATURE ITEM-->
+
+		<!-- FEATURE ITEM-->
+        <div class="span3">
+          <div class="feature-box">
+            <img class="feature-box-image" alt="" src="{{MEDIA_URL}}images/illustrations/retina.png">
+            <h4 class="feature-box-title">GIMI</h4>
+            <p>Grupo Investigación en Manejo de Información</p>
+            <a class="btn btn-success btn-large btn-block" href="#">Ir a</a>
+          </div>
+		</div>
+		<!--/ FEATURE ITEM-->
+		
+		<!-- FEATURE ITEM-->
+		<div class="span3">
+          <div class="feature-box feature-box-hot">
+            <img class="feature-box-image" alt="" src="{{MEDIA_URL}}images/illustrations/timec.png">
+            <h4 class="feature-box-title">GALASH</h4>
+            <p>Save up to 72 hours for your project kickstarting</p>
+            <a class="btn btn-danger btn-large btn-block" href="#">Ir a</a>
+          </div>
+        </div>
+		<!--/ FEATURE ITEM-->
+		
+	</div> <!-- / ROW-->
+	
+	</div> <!-- CONTAINER-->
+	
+
+</section>
 
 
 <!-- ############### END PRICE SECTION #########
@@ -693,7 +521,7 @@ Version 2 ############ -->
 	<div class="foothead">
 		<div class="row-fluid">
 		<div class="span12 page-header">
-			<h3>CONTACTENOS <small class="visible-desktop"></small></h3>
+			<h3>Contacto<small class="visible-desktop"></small></h3>
 		</div>
 		</div>
 	</div>	
