@@ -18,6 +18,12 @@ urlpatterns = patterns('',
     url(r'^agregar_slide', 'main.views.add_slide'),
     url(r'^actualizar_slide', 'main.views.update_slide'),
     url(r'^eliminar_slide/(?P<identification>\d+)$', 'main.views.delete_slide'),
+    
+    url(r'^agregar_aspecto', 'main.views.add_aspect'),
+    url(r'^actualizar_aspecto', 'main.views.update_aspect'),
+    url(r'^eliminar_aspecto/(?P<identification>\d+)$', 'main.views.delete_aspect'),
+
+
     # url(r'^gruplink/', include('gruplink.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:

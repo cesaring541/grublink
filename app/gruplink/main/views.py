@@ -4,6 +4,7 @@
 from django.shortcuts import render_to_response, HttpResponseRedirect
 from django.template import RequestContext
 from main.models import Section,Slide, Aspect
+import re
 
 from django.utils import translation
 
@@ -20,7 +21,7 @@ def home(request):
 	sections = Section.objects.filter(section_lang=lang).order_by('section_index')
 	slides=Slide.objects.all().order_by('slide_index')
 	slides_pagers=range(1,len(slides)+1)
-	aspects= Aspect.objects.all()
+	aspects= Aspect.objects.all().order_by('index')
 
 	return render_to_response ('index.html', 
 							  	{'sections':sections, 
@@ -119,4 +120,58 @@ def delete_slide(request, identification):
 	
 	slide = Slide.objects.get(id=identification)
 	slide.delete()
+	return HttpResponseRedirect("/")
+
+
+def add_aspect(request):
+	title=request.POST.get('title')
+	icon_name=request.POST.get('icon')
+	index=request.POST.get('index')
+	content=request.POST.get('content')
+
+	content = re.sub(r'style=".*"', "", content,0)
+
+	new_aspect=Aspect(
+		title=title, lang=request.LANGUAGE_CODE, 
+		icon_name=icon_name, index=int(index), content=content)
+
+
+	# print(new_slide.slide_bg)
+
+	new_aspect.save()
+
+	return HttpResponseRedirect("/")
+
+def update_aspect(request):
+	id=request.POST.get('id')
+	title=request.POST.get('title')
+	icon_name=request.POST.get('icon')
+	index=request.POST.get('index')
+	content=request.POST.get('content')
+
+
+	content = re.sub(r'style=".*"', "", content,0)
+
+	print "ajajajajjaa",content
+
+	aspect=Aspect.objects.get(id=id)
+
+	aspect.title=title
+	aspect.icon_name=icon_name
+	aspect.index=index
+	aspect.content=content
+	
+
+
+
+	# print(new_slide.slide_bg)
+
+	aspect.save()
+
+	return HttpResponseRedirect("/")
+
+def delete_slide(request, identification):
+	
+	aspect = Aspect.objects.get(id=identification)
+	aspect.delete()
 	return HttpResponseRedirect("/")
