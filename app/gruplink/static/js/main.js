@@ -6,6 +6,33 @@ $(document).ready(function(){
 	$("#aspect_pager li:first").addClass('current');
 	$("#aspect_display > li:first").addClass('displayed');
 
+	$(".content_editor").cleditor();
+
+	
+	$(".edit_content").click(function(){
+		content=$(this).parents('header').next().find('.content_text').html();
+		$(this).parents('header').next().find('.content_text').hide();
+		$(this).hide();
+		$(this).parents('header').next().find('.edit_content_form').slideDown();
+		$(this).parents('header').next().find(".content_editor").val(content);
+		editor= $(this).parents('header').next().find(".content_editor").cleditor()[0];
+		editor.refresh()
+	});
+
+	$(".cancel").click(function(event){
+		event.preventDefault();
+
+		content=$(".content_editor").val();
+		$(this).parents('.container').prev().find('.edit_content').show();
+		$(this).parent().parent().find('.content_text').html(content);
+		$(this).parent().parent().find('.content_text, .edit_content').show();
+		$(this).parent().parent().find('.edit_content_form').slideUp();
+		//$(this).parent().find(".content_editor").val(content);
+		//editor= $(this).parent().find(".content_editor").cleditor()[0];
+		//editor.refresh()
+
+	});
+
 	$("#submit_section_updates").click(function(event){
 
 		event.preventDefault();
@@ -151,6 +178,7 @@ $(document).ready(function(){
 		e.preventDefault()
 		$("#zup").click();
 	})
+
 
 	$("#aspect_pager li").click(function(){
 		$(this).addClass('current').siblings().removeClass('current');

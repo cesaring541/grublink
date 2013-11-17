@@ -28,7 +28,6 @@ class Slide(models.Model):
 class Content(models.Model):
 	section_id=models.ForeignKey(Section)
 	text=models.CharField(max_length=100000, null=False)
-	lang=models.CharField(max_length=2,null=False)
 
 	def __unicode__(self):
 		return self.text

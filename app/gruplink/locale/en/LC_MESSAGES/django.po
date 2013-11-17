@@ -1,7 +1,83 @@
-#: templates/index.html:12
-msgid "title"
-msgstr "This is the title"
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-11-17 02:11-0500\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
 
-#: templates/index.html:192
+#: templates/index.html:13
+msgid "title"
+msgstr "Systems Engineering - Uptc"
+
+#: templates/index.html:161 templates/infelcom-index.html:154
 msgid "language"
-msgstr "Default lang"
+msgstr "Language"
+
+#: templates/index.html:189
+msgid "inicio"
+msgstr ""
+
+#: templates/index.html:270
+msgid "escuela"
+msgstr "school"
+
+#: templates/index.html:276
+msgid "La escuela"
+msgstr "School"
+
+#: templates/index.html:276
+msgid "Quienes somos"
+msgstr "Who we are"
+
+#: templates/index.html:345
+msgid "investigacion"
+msgstr "research"
+
+#: templates/index.html:351
+msgid "header_inves"
+msgstr "Research"
+
+#: templates/index.html:351
+msgid "grupos_msg"
+msgstr "Our research groups"
+
+#: templates/index.html:366 templates/index.html.py:375
+#: templates/index.html:384 templates/index.html.py:393
+msgid "Ver sitio"
+msgstr "Go to site"
+
+#: templates/index.html:441
+msgid "contacto"
+msgstr "contact"
+
+#: templates/index.html:449
+msgid "header_cont"
+msgstr "Contact"
+
+#: templates/index.html:459
+msgid "navigation"
+msgstr "Navigation"
+
+#: templates/index.html:470
+msgid "useful_links"
+msgstr "Useful links"
+
+#: templates/index.html:477
+msgid "office"
+msgstr "Office"
+
+#: templates/infelcom-index.html:12
+msgid "Infelcom"
+msgstr "Infelcom"

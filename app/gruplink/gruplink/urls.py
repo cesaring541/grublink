@@ -13,7 +13,7 @@ urlpatterns = patterns('',
     
     url(r'^agregar_seccion', 'main.views.add_section'),
     url(r'^actualizar_secciones', 'main.views.update_sections'),
-    url(r'^borrar_seccion/(?P<identification>\d+)$', 'main.views.delete_section'),
+    url(r'^borrar_seccion/(?P<identification>\d+)', 'main.views.delete_section'),
     
     url(r'^agregar_slide', 'main.views.add_slide'),
     url(r'^actualizar_slide', 'main.views.update_slide'),
@@ -23,8 +23,11 @@ urlpatterns = patterns('',
     url(r'^actualizar_aspecto', 'main.views.update_aspect'),
     url(r'^eliminar_aspecto/(?P<identification>\d+)$', 'main.views.delete_aspect'),
 
+    url(r'^actualizar_contenido', 'main.views.update_content'),
 
-    # url(r'^gruplink/', include('gruplink.foo.urls')),
+
+
+    url(r'^infelcom', include('infelcom.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
@@ -38,4 +41,5 @@ urlpatterns = patterns('',
 
 urlpatterns += i18n_patterns('',
     url(r'^$', 'main.views.home'),
+    url(r'^infelcom', 'infelcom.views.home'),
 )

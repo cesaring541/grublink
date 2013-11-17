@@ -1,44 +1,44 @@
 <!DOCTYPE html>
  {% load i18n %}
 <html>
-
 <head>
 
-	<!-- BOOTSCROLLER premium Bootstrap html5 template v 1.0.0. 
-	ArtLabs 2013 - http://www.sitediscount.ru 
-	####### Released under GNU GENERAL PUBLIC LICENSE
-	Version 2 ############ -->
+<!-- BOOTSCROLLER premium Bootstrap html5 template v 1.0.0. 
+ArtLabs 2013 - http://www.sitediscount.ru 
+####### Released under GNU GENERAL PUBLIC LICENSE
+Version 2 ############ -->
 
-	<meta charset="utf-8">
-	<title>{% trans "title" %} </title>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="responsive parallax Bootstrap template">
-	<meta name="author" content="ArtLabs">
+<meta charset="utf-8">
+<title>{% trans "Infelcom" %} </title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="responsive parallax Bootstrap template">
+<meta name="author" content="ArtLabs">
 
-	<!-- Bootstrap -->
-	<link href="{{STATIC_URL}}css/bootstrap/bootstrap.css" rel="stylesheet">
-	<link href="{{STATIC_URL}}css/bootstrap/bootstrap-responsive.css" rel="stylesheet">
+<!-- Bootstrap -->
+<link href="{{STATIC_URL}}css/bootstrap/bootstrap.css" rel="stylesheet">
+<link href="{{STATIC_URL}}css/bootstrap/bootstrap-responsive.css" rel="stylesheet">
 
 
-	<!-- Plugins -->
-	<link href="{{STATIC_URL}}css/plugins/animate.min.css" rel="stylesheet">
-	<link href="{{STATIC_URL}}css/plugins/responsive-slider.css" rel="stylesheet">
-	<link href="{{STATIC_URL}}css/plugins/jquery.cleditor.css" rel="stylesheet">
-	<link href="{{STATIC_URL}}css/plugins/jquery.mCustomScrollbar.css" rel="stylesheet">
+<!-- Plugins -->
+<link href="{{STATIC_URL}}css/plugins/animate.min.css" rel="stylesheet">
+<link href="{{STATIC_URL}}css/plugins/responsive-slider.css" rel="stylesheet">
+<link href="{{STATIC_URL}}css/plugins/jquery.cleditor.css" rel="stylesheet">
+<link href="{{STATIC_URL}}css/plugins/jquery.mCustomScrollbar.css" rel="stylesheet">
 
-	<!-- Fonts -->
-	<link href="{{STATIC_URL}}css/fonts/font-awesome.min.css" rel="stylesheet"> 
+<!-- Fonts -->
+<link href="{{STATIC_URL}}css/fonts/font-awesome.min.css" rel="stylesheet"> 
 
-	<!-- General Stylesheet -->
-	<link href="{{STATIC_URL}}css/general.css" rel="stylesheet">
+<!-- General Stylesheet -->
+<link href="{{STATIC_URL}}css/general.css" rel="stylesheet">
 
-	<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
-	<!--[if lt IE 9]>
-	      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-	    <![endif]-->
-		
-	<!--Favicon -->
-	<link rel="shortcut icon" href="{{MEDIA_URL}}img/favicon.ico">
+<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+<!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+	
+<!--Favicon -->
+<link rel="shortcut icon" href="{{MEDIA_URL}}img/favicon.ico">
+
 </head>
 
 
@@ -78,7 +78,7 @@
 							<div id="main-nav" class="scroller-spy">
 								<nav class="nav-collapse collapse" >
 
-									<img src="{{MEDIA_URL}}img/logo_{{request.LANGUAGE_CODE}}.png" alt="Logo">
+									<img src="{{MEDIA_URL}}img/logo_infelcom.png" alt="Logo">
 
 									<ul class="nav pull-right" id="nav">
 
@@ -94,7 +94,7 @@
 											<li class="dropdown">
 												<a class="dropdown-toggle" href="#" data-toggle="dropdown"><i class="fa-icon-plus"></i></a>
 												<div class="dropdown-menu">
-													<form action="agregar_seccion" method="POST">
+													<form action="/infelcom/agregar_seccion" method="POST">
 														{% csrf_token %}
 														<input type="text" name="section_name" placeholder="Nombre de la seccion"/>
 														<input type="text" name="section_title" placeholder="Título de la seccion"/>
@@ -107,7 +107,7 @@
 											<li class="dropdown">
 												<a class="dropdown-toggle" href="#" data-toggle="dropdown"><i class="fa-icon-pencil"></i></a>
 												<div class="dropdown-menu">
-													<form id="update_sections_form" action="actualizar_secciones" method="POST">
+													<form id="update_sections_form" action="/infelcom/actualizar_secciones" method="POST">
 														{% csrf_token %}
 														<div class="table-responsive">
 															<table class="table table-condensed table-hover v">
@@ -125,20 +125,13 @@
 																	{%for section in sections%}
 																	<tr>
 																		<td>{{section.id}}</td>
-																		<td>
-																			{%if section.locked == 0%}
-																			<input type="text" field="section_name" value="{{section.section_name}}" placeholder="Nombre"></td>
-																			{%else%}
-																			{{section.section_name}}
-																			{%endif%}
+																		<td><input type="text" field="section_name" value="{{section.section_name}}" placeholder="Nombre"></td>
 																		<td><input type="text" field="section_title" value="{{section.section_title}}" placeholder="Título"></td>
 																		<td><input type="text" field="section_index" value="{{section.section_index}}" placeholder="Índice"></td>
 																		<td>
-																			{%if section.locked == 0%}
 																			<a class="btn btn-danger" href="borrar_seccion/{{section.id}}">
 																				<i class="fa-icon-trash"></i>
 																			</a>
-																			{%endif%}
 																		</td>
 																	</tr>
 																	{%endfor%}
@@ -173,7 +166,7 @@
 										</div>	
 										<form action="/i18n/setlang/" method="post" id="setlang_form">
 											{% csrf_token %}
-											<input name="next" type="hidden" value="/" />
+											<input name="next" type="hidden" value="/infelcom" />
 											<input name="language" id ="lang" type="hidden"/>
 										</form>	
 									</ul>			
@@ -182,11 +175,19 @@
 
 						</div>
 					</div>
+
+					<div id="groups_pager" class="btn-group">
+						<a href="/" class="btn">{%trans "La escuela"%}</a>
+						<a href="#" class="btn">GIS</a>
+						<a href="#" class="btn">GIMI</a>
+						<a href="#" class="btn">GALASH</a>
+					</div>
+
 				</div>
 			</div>
 			
 			<!-- Slider -->
-			<div class="hero-unit" id="{%trans "inicio"%}">
+			<div class="hero-unit" id="inicio">
 
 				<div class="responsive-slider" data-spy="responsive-slider" data-autoplay="true">
 					{%if request.session.user == 'admin' %}
@@ -198,7 +199,7 @@
 					</div>
 
 					<div id="add_slide_form">
-						<form action="agregar_slide" method="post" id="setlang_form" enctype="multipart/form-data">
+						<form action="/infelcom/agregar_slide" method="post" id="setlang_form" enctype="multipart/form-data">
 							{% csrf_token %}
 							<input type="text" name="name" placeholder="Nombre de slide"/>
 							<input type="text" name="title" placeholder="Título de slide"/>
@@ -213,7 +214,7 @@
 					</div>
 
 					<div id="edit_slide_form">
-						<form action="actualizar_slide" method="post" enctype="multipart/form-data">
+						<form action="/infelcom/actualizar_slide" method="post" enctype="multipart/form-data">
 							{% csrf_token %}
 							<input type="hidden" id="ed_slide_id" name="id"/>
 							<input type="text" id="ed_slide_name" name="name" placeholder="Nombre de slide"/>
@@ -267,13 +268,13 @@
 		</div>
 	</header>
 
-	<section class="" id="{% trans "escuela" %}">
+	<section class="" id="grupo">
 		<!-- Header -->
 		<header class="" >
 			<div class="page-header ">
 				<div class="container">
 					<div class="row-fluid">
-						<h3>{%trans "La escuela"%} <small class="visible-desktop">{%trans "Quienes somos"%}</small></h3>
+						<h3>El grupo <small class="visible-desktop">Quienes somos</small></h3>
 					</div>
 				</div>	
 			</div>
@@ -294,7 +295,7 @@
 				</div>
 
 				<div id="add_aspect_form">
-					<form action="agregar_aspecto" method="post" id="setlang_form" enctype="multipart/form-data">
+					<form action="/infelcom/agregar_aspecto" method="post" id="setlang_form" enctype="multipart/form-data">
 						{% csrf_token %}
 						<input type="text" name="title" placeholder="Titulo"/>
 						<input type="text" name="icon" placeholder="Ícono"/>
@@ -305,7 +306,7 @@
 				</div>
 
 				<div id="edit_aspect_form">
-					<form action="actualizar_aspecto" method="post" enctype="multipart/form-data">
+					<form action="/infelcom/actualizar_aspecto" method="post" enctype="multipart/form-data">
 						{% csrf_token %}
 						<input type="hidden" name="id" id="ed_id"/>
 						<input type="text" id="ed_title" name="title" placeholder="Titulo"/>
@@ -321,15 +322,25 @@
 				</div>
 				{%endif%}
 
+
+
+
+
+
+
+
+
+
+
 				<ul id="aspect_pager">
 					{%for aspect in aspects%}
-					<li aspect="{{aspect.title}}"><i class="{{aspect.icon_name}}"></i></li>
+					<li aspect="{{aspect.title.split|join:"_"}}"><i class="{{aspect.icon_name}}"></i></li>
 					{%endfor%}
 				</ul>
 				<ul id="aspect_display">
 					{%autoescape off%}
 					{%for aspect in aspects%}
-					<li id="{{aspect.title}}" aspect-id="{{aspect.id}}" index="{{aspect.index}}">
+					<li id="{{aspect.title.split|join:"_" }}" aspect-id="{{aspect.id}}" index="{{aspect.index}}">
 						<h3 class="aspect_title">{{aspect.title}}</h3>
 						<span class="aspect_content">{{aspect.content}}</span>
 						<p></p>
@@ -341,14 +352,177 @@
 		</div>
 	</section>
 
+	<section id="integrantes">
+		<header>
+			<div class="page-header ">
+				<div class="container">
+					<div class="row-fluid">
+						<h3>Integrantes <small class="visible-desktop"></small></h3>
+					</div>
+				</div>	
+			</div>
+		</header>
+		<div class="container">
+			<div class="row-fluid" id="show4">
 
-	<section  id="{% trans "investigacion" %}">
+				<div class="thumbnail span3">
+
+					<div class="sample project-item-image-container">
+						<img src="{{MEDIA_URL}}images/staff5.jpg" alt=""/>
+					</div>
+
+					<div class="caption team-caption">
+						<div class="transit-to-top">
+							<h4 class="">Ing. Jorge Otalora</h4>
+							<small>Director de escuela</small>
+
+							<div class="widget_nav_menu"> 
+								<a class="btn btn-medium">Ver perfil</a>
+								<ul class="social-top">
+									<li><a href="#" title=""><i class="fa-icon-facebook"></i></a></li>
+									<li><a href="#" title=""><i class="fa-icon-twitter"></i></a></li>
+									<li><a href="#" title=""><i class="fa-icon-google-plus"></i></a></li>
+								</ul>
+							</div>
+						</div> 
+					</div>
+				</div>
+
+				<div class="thumbnail span3">
+
+					<div class="sample project-item-image-container">
+						<img src="{{MEDIA_URL}}images/staff5.jpg" alt=""/>
+					</div>
+
+					<div class="caption team-caption">
+						<div class="transit-to-top">
+							<h3 class="">Ing. Jorge Otalora <small>Director de escuela</small></h3>
+
+							<div class="widget_nav_menu"> 
+								<ul class="social-top">
+									<li><a href="#" title=""><i class="fa-icon-facebook"></i></a></li>
+									<li><a href="#" title=""><i class="fa-icon-twitter"></i></a></li>
+									<li><a href="#" title=""><i class="fa-icon-github-alt"></i></a></li>
+									<li><a href="#" title=""><i class="fa-icon-linkedin"></i></a></li>
+								</ul>
+
+							</div>
+						</div> 
+					</div>
+				</div>
+
+				<div class="thumbnail span3">
+
+					<div class="sample project-item-image-container">
+						<img src="{{MEDIA_URL}}images/staff5.jpg" alt=""/>
+					</div>
+
+					<div class="caption team-caption">
+						<div class="transit-to-top">
+							<h3 class="">Ing. Jorge Otalora <small>Director de escuela</small></h3>
+
+							<div class="widget_nav_menu"> 
+								<ul class="social-top">
+									<li><a href="#" title=""><i class="fa-icon-facebook"></i></a></li>
+									<li><a href="#" title=""><i class="fa-icon-twitter"></i></a></li>
+									<li><a href="#" title=""><i class="fa-icon-github-alt"></i></a></li>
+									<li><a href="#" title=""><i class="fa-icon-google-plus"></i></a></li>
+									<li><a href="#" title=""><i class="fa-icon-linkedin"></i></a></li>
+								</ul>
+
+							</div>
+						</div> 
+					</div>
+				</div>
+
+
+
+
+				<div class="thumbnail span3">
+
+					<div class="sample project-item-image-container">
+						<img src="{{MEDIA_URL}}images/staff4.jpg" alt=""/>
+					</div> 
+
+
+
+					<div class="caption team-caption">
+						<div class="transit-to-top">
+							<h3 class="">John Doe <small>CEO, OnePager</small></h3>
+							<div class="widget_nav_menu"> 
+								<ul class="social-top">
+									<li><a href="#" title=""><i class="fa-icon-facebook"></i></a></li>
+									<li><a href="#" title=""><i class="fa-icon-twitter"></i></a></li>
+									<li><a href="#" title=""><i class="fa-icon-github-alt"></i></a></li>
+									<li><a href="#" title=""><i class="fa-icon-google-plus"></i></a></li>
+									<li><a href="#" title=""><i class="fa-icon-linkedin"></i></a></li>
+								</ul>
+							</div>
+						</div> 
+					</div>
+				</div>
+
+				<div class="thumbnail span3">
+
+					<div class="sample project-item-image-container">
+						<img src="{{MEDIA_URL}}images/staff3.jpg" alt=""/>
+					</div> 
+
+
+
+					<div class="caption team-caption">
+						<div class="transit-to-top">
+							<h3 class="">John Doe <small>CEO, OnePager</small></h3>
+							<div class="widget_nav_menu"> 
+								<ul class="social-top">
+									<li><a href="#" title=""><i class="fa-icon-facebook"></i></a></li>
+									<li><a href="#" title=""><i class="fa-icon-twitter"></i></a></li>
+									<li><a href="#" title=""><i class="fa-icon-github-alt"></i></a></li>
+									<li><a href="#" title=""><i class="fa-icon-google-plus"></i></a></li>
+									<li><a href="#" title=""><i class="fa-icon-linkedin"></i></a></li>
+								</ul>
+
+							</div>
+						</div> 
+					</div>
+				</div>
+
+				<div class="thumbnail span3">
+
+					<div class="sample project-item-image-container">
+						<img src="{{MEDIA_URL}}images/staff2.jpg" alt=""/>
+					</div> 
+
+
+
+					<div class="caption team-caption">
+						<div class="transit-to-top">
+							<h3 class="">John Doe <small>CEO, OnePager</small></h3>
+
+							<div class="widget_nav_menu"> 
+								<ul class="social-top">
+									<li><a href="#" title=""><i class="fa-icon-facebook"></i></a></li>
+									<li><a href="#" title=""><i class="fa-icon-twitter"></i></a></li>
+									<li><a href="#" title=""><i class="fa-icon-github-alt"></i></a></li>
+									<li><a href="#" title=""><i class="fa-icon-google-plus"></i></a></li>
+									<li><a href="#" title=""><i class="fa-icon-linkedin"></i></a></li>
+								</ul>
+							</div>
+						</div> 
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+
+	<section  id="proyectos">
 		<!-- Header -->
 		<header class="" >
 			<div class="page-header ">
 				<div class="container">
 					<div class="row-fluid">
-						<h3>{%trans "header_inves"%} <small class="visible-desktop">{%trans "grupos_msg"%}</small></h3>
+						<h3>Proyectos <small class="visible-desktop"></small></h3>
 					</div>
 				</div>	
 			</div>
@@ -363,7 +537,7 @@
 						<img class="feature-box-image" alt="" src="{{MEDIA_URL}}images/gis.png">
 						<h4 class="feature-box-title">GIS</h4>
 						<p>Grupo de Investigacion en Software</p><br>
-						<a class="btn btn-large btn-block" href="#">{%trans "Ver sitio"%}</a>
+						<a class="btn btn-large btn-block" href="#">Ver sitio</a>
 					</div>
 				</div>
 
@@ -372,7 +546,7 @@
 						<img class="feature-box-image" alt="" src="{{MEDIA_URL}}images/infelcom.png">
 						<h4 class="feature-box-title">INFELCOM</h4>
 						<p>Grupo de Investigación en Informática, Electrónica y Comunicaciones </p>
-						<a   class="btn btn-large btn-block infelcom" href="infelcom">{%trans "Ver sitio"%}</a>
+						<a   class="btn btn-large btn-block infelcom" href="#">Ver sitio</a>
 					</div>
 				</div>
 
@@ -381,7 +555,7 @@
 						<img class="feature-box-image" alt="" src="{{MEDIA_URL}}images/gimi.png">
 						<h4 class="feature-box-title">GIMI</h4>
 						<p>Grupo Investigación en Manejo de Información</p><br>
-						<a class="btn btn-large btn-block" href="#">{%trans "Ver sitio"%}</a>
+						<a class="btn btn-large btn-block" href="#">Ver sitio</a>
 					</div>
 				</div>
 
@@ -390,7 +564,7 @@
 						<img class="feature-box-image" alt="" src="{{MEDIA_URL}}images/illustrations/timec.png">
 						<h4 class="feature-box-title">GALASH</h4>
 						<p>Grupo de Investigación en Auditoría Lógica y Arquitectura de Software y Hardware</p>
-						<a class="btn btn-large btn-block" href="#">{%trans "Ver sitio"%}</a>
+						<a class="btn btn-large btn-block" href="#">Ver sitio</a>
 					</div>
 				</div>
 
@@ -400,45 +574,8 @@
 
 	</section>
 
-	{%for section in sections%}
-	{%if section.locked == 0%}
-	<section id="{{section.section_name}}">
-				<!-- Header -->
-		<header class="" >
-			<div class="page-header ">
-				<div class="container">
-					<div class="row-fluid">
-						<h3>
-							{{section.section_title}}
-							{%if request.session.user == 'admin' %}
-							<a class="btn btn_large edit_content">Editar contenido</a>
-							{%endif%}
-						</h3>
-					
-					</div>
-				</div>	
-			</div>
-		</header>
-		<div class="container">
-			{%for content in contents%}
-				{%if content.section_id.id == section.id%}
-					<span class="content_text">{{content.text}}</span>
-					<form style="display:none;" action="actualizar_contenido" class="edit_content_form" method="POST">
-						{% csrf_token %}
-						<input type="hidden" name="id" value="{{content.id}}"/>
-						<textarea name="text" class="content_editor"></textarea>
-						<input type="submit" class="btn btn-success" value="Guardar"/>
-						<input type="submit" class="btn btn-danger cancel" value="Cancelar"/>
-					</form>
-				{%endif%}
-			{%endfor%}
 
-		</div> 
-	</section>
-	{%endif%}
-	{%endfor%}
-
-<footer class="footer" id="{% trans "contacto" %}">
+<footer class="footer" id="contacto">
   <div class="container">
    
 <!-- CONTACT HEADER-->
@@ -446,7 +583,7 @@
 	<div class="foothead">
 		<div class="row-fluid">
 		<div class="span12 page-header">
-			<h3>{%trans "header_cont"%}<small class="visible-desktop"></small></h3>
+			<h3>Contacto<small class="visible-desktop"></small></h3>
 		</div>
 		</div>
 	</div>	
@@ -456,30 +593,34 @@
 <div class="row-fluid">
 
 <div class="span3">
-    <h4 class="line3 center standart-h4title"><span>{%trans "navigation"%}</span></h4>
+    <h4 class="line3 center standart-h4title"><span>Navigation</span></h4>
         <ul class="footer-links">
-        	{%for section in sections%}
-        	<li>
-        		<a href="#{{section.section_name}}">{{section.section_title}}</a>
-        	</li>
-  			{%endfor%}
+          <li><a href="#">Home</a></li>
+          <li><a href="#">project</a></li>
+          <li><a href="#">Elements</a></li>
+          <li><a href="#">Contact</a></li>
+          <li><a href="#">Blog</a></li>
         </ul>
 </div>
 	
 <div class="span3">
-    <h4 class="line3 center standart-h4title"><span>{%trans "useful_links"%}</span></h4>
+    <h4 class="line3 center standart-h4title"><span>Useful Links</span></h4>
         <ul class="footer-links">
-          <li><a href="http://www.uptc.edu.co">Uptc</a></li>
+          <li><a href="#">OnePager</a></li>
+          <li><a href="#">OnePager</a></li>
+          <li><a href="#">WordPress.com</a></li>
+          <li><a href="#">ThemeForest.net</a></li>
+          <li><a href="#">Free Vector Icons</a></li>
         </ul>
 </div>
 
-<div class="span5">
-    <h4 class="line3 center standart-h4title"><span>{%trans "office"%}</span></h4>
+<div class="span3">
+    <h4 class="line3 center standart-h4title"><span>Our office</span></h4>
     <address>
-	<strong>Uptc</strong><br>
-	<i class="fa-icon-map-marker"></i> Edificio central<br>
-	<i class="fa-icon-phone-sign"></i> PBX (57) 8 7405626 - Ext.: 2545-2546-2548<br>
-	<i class="fa-icon-envelope"></i><a href="mailto:ingenieria.sistemas@uptc.edu.co">ingenieria.sistemas@uptc.edu.co</a>
+	<strong>OnePager, Inc.</strong><br>
+	<i class="fa-icon-map-marker"></i> 795 Folsom Ave, Suite 600<br>
+	San Francisco, CA 94107<br>
+	<i class="fa-icon-phone-sign"></i> + 4 (123) 456-7890
 	<div class="foot-line"></div>
 	</address>
 </div>
@@ -491,6 +632,7 @@
 			<li><a href="#" title=""><i class="fa-icon-twitter"></i></a></li>
 			<li><a href="#" title=""><i class="fa-icon-github-alt"></i></a></li>
 			<li><a href="#" title=""><i class="fa-icon-google-plus"></i></a></li>
+			<li><a href="#" title=""><i class="fa-icon-linkedin"></i></a></li>
 		</ul>
    
 		
@@ -500,10 +642,7 @@
 <!-- ROW-FLUID-->
 </div>
 <!-- MAP DIV // !Don't remove this !Important -= gMap Script wrapper =- -->
-			<div id="map">
-				<iframe width="425" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.es/maps/ms?ll=5.550391,-73.354104&amp;spn=0.006354,0.010568&amp;t=h&amp;z=17&amp;msa=0&amp;msid=208219250413901764892.0004eb5a54ea642acc061"></iframe><br /><small>Ver <a href="https://maps.google.es/maps/ms?ll=5.550391,-73.354104&amp;spn=0.006354,0.010568&amp;t=h&amp;z=17&amp;msa=0&amp;msid=208219250413901764892.0004eb5a54ea642acc061&amp;source=embed" style="color:#0000FF;text-align:left">Sistemas Uptc</a> en un mapa más grande</small>
-
-			</div>
+			<div id="map"></div>
 <!-- MAP DIV // !Don't remove this !Important -->
 
 </footer>
@@ -554,6 +693,7 @@
 
 <!-- gMap PLUGIN -->
 <!-- <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script> -->
+<script type="text/javascript" src="{{STATIC_URL}}js/gmaps.js"></script>
 <!-- gMap PLUGIN -->
 
 <script type="text/javascript" src="{{STATIC_URL}}js/custom.js"></script>

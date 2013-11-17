@@ -1,41 +1,40 @@
 #coding=utf-8
-
 # Create your views here.
 
 
 from django.shortcuts import render_to_response, HttpResponseRedirect
 from django.template import RequestContext
-from main.models import Section,Slide, Aspect, Content
+from infelcom.models import Section, Slide, Aspect, Content
 import re
 
 from django.utils import translation
 
 def logout(request):
 	del request.session['user']
-	return HttpResponseRedirect("/")
+	return HttpResponseRedirect("/infelcom")
 
 def load_admin(request):
 	request.session['user']='admin'
-	return HttpResponseRedirect("/")
+	return HttpResponseRedirect("/infelcom")
 
 def home(request):
+
 	lang=str(request.LANGUAGE_CODE)
 	sections = Section.objects.filter(section_lang=lang).order_by('section_index')
-	slides=Slide.objects.filter(slide_lang=lang).order_by('slide_index')
+	slides=Slide.objects.all().order_by('slide_index')
 	slides_pagers=range(1,len(slides)+1)
-	aspects= Aspect.objects.filter(lang=lang).order_by('index')
-	contents=Content.objects.all()
+	aspects= Aspect.objects.all().order_by('index')
 
-	return render_to_response ('index.html', 
+	return render_to_response ('infelcom-index.html', 
 							  	{'sections':sections, 
 							  	 'slides':slides, 
 							  	 'slides_pagers':slides_pagers,
-							  	 'aspects':aspects,
-							  	 'contents':contents
+							  	 'aspects':aspects
 							  	}, context_instance=RequestContext(request))
 
 def add_section(request):
 
+	print "holaaaa"
 
 	name=request.POST.get('section_name')
 	title=request.POST.get('section_title')
@@ -46,9 +45,8 @@ def add_section(request):
 
 	new_section.save()
 	new_content=Content(section_id=new_section, text="No se ha definido contenido para esta sección")
-	new_content.save()
 
-	return HttpResponseRedirect("/")
+	return HttpResponseRedirect("/infelcom")
 
 def update_sections(request):
 	data=request.POST.get('data')
@@ -57,36 +55,19 @@ def update_sections(request):
 
 	for row in rows:
 		fields=row.split(',')
-		print "jajaja", len(fields)
 		section=Section.objects.get(id=fields[0])
-		if section.locked==0:
-			section.section_name=fields[1]
-			section.section_title=fields[2]
-			section.section_index=fields[3]
-			section.save()
+		section.section_name=fields[1]
+		section.section_title=fields[2]
+		section.section_index=fields[3]
+		section.save()
 
-	return HttpResponseRedirect("/")
+	return HttpResponseRedirect("/infelcom")
 
 
 def delete_section(request, identification):
-	
 	section = Section.objects.get(id=identification)
-	content = Content.objects.get(section_id=section)
-	content.delete()
 	section.delete()
-	return HttpResponseRedirect("/")
-
-
-def update_content(request):
-
-	id=request.POST.get('id')
-	text=request.POST.get('text')
-
-	content=Content.objects.get(id=id)
-	content.text=text
-	content.save()
-
-	return HttpResponseRedirect("/")
+	return HttpResponseRedirect("/infelcom")
 
 def add_slide(request):
 	name=request.POST.get('name')
@@ -111,7 +92,7 @@ def add_slide(request):
 	print(new_slide.slide_bg)
 
 	new_slide.save()
-	return HttpResponseRedirect("/")
+	return HttpResponseRedirect("/infelcom")
 
 def update_slide(request):
 
@@ -136,7 +117,7 @@ def update_slide(request):
 
 	slide.save()
 
-	return HttpResponseRedirect("/")
+	return HttpResponseRedirect("/infelcom")
 
 def delete_slide(request, identification):
 	
@@ -162,7 +143,7 @@ def add_aspect(request):
 
 	new_aspect.save()
 
-	return HttpResponseRedirect("/")
+	return HttpResponseRedirect("/infelcom")
 
 def update_aspect(request):
 	id=request.POST.get('id')
@@ -190,10 +171,10 @@ def update_aspect(request):
 
 	aspect.save()
 
-	return HttpResponseRedirect("/")
+	return HttpResponseRedirect("/infelcom")
 
 def delete_slide(request, identification):
 	
 	aspect = Aspect.objects.get(id=identification)
 	aspect.delete()
-	return HttpResponseRedirect("/")
+	return HttpResponseRedirect("/infelcom")
