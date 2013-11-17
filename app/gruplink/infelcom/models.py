@@ -47,6 +47,39 @@ class Aspect(models.Model):
 	index=models.IntegerField(null=False)
 	lang=models.CharField(max_length=2,null=False)
 
+class Member(models.Model):
+	name=models.CharField(max_length=100,null=False)
+	last_name=models.CharField(max_length=100,null=False)
+	charge=models.CharField(max_length=50, null=False)
+	profile_img=models.ImageField(upload_to='profiles_img')
+	about=models.CharField(max_length=1000, null=False)
+	cv_lac=models.CharField(max_length=200,null=False)
+
+class ProfileLinks(models.Model):
+	member=models.ForeignKey(Member)
+	title=models.CharField(max_length=30,null=False)
+	url=models.CharField(max_length=100,null=False)
+	icon=models.CharField(max_length=30,null=False)
+
+class Project(models.Model):
+	title=models.CharField(max_length=200,null=False)
+	description=models.CharField(max_length=1000,null=False)
+	members=models.ManyToManyField(Member)
+	status=models.CharField(max_length=50, null=False)
+	progress=models.IntegerField(max_length=3)
+	aditional_info=models.CharField(max_length=1000,null=False)
+	url=models.CharField(max_length=200,null=False)
+
+class Product(models.Model):
+	title=models.CharField(max_length=200,null=False)
+	description=models.CharField(max_length=1000,null=False)
+	members=models.ManyToManyField(Member)
+	status=models.CharField(max_length=50, null=False)
+	progress=models.IntegerField(max_length=3)
+	aditional_info=models.CharField(max_length=1000,null=False)
+	url=models.CharField(max_length=200,null=False)
+
+
 
 from django.db.models.signals import post_delete
 from django.dispatch import receiver

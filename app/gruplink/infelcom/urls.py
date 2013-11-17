@@ -23,6 +23,11 @@ urlpatterns = patterns('',
     url(r'^/actualizar_aspecto', 'infelcom.views.update_aspect'),
     url(r'^/eliminar_aspecto/(?P<identification>\d+)$', 'infelcom.views.delete_aspect'),
 
+    url(r'^/perfil/nuevo$', 'infelcom.views.load_profile_form'),
+    url(r'^/perfil/(?P<identification>\d+)$', 'infelcom.views.load_profile'),
+    url(r'^/agregar_miembro', 'infelcom.views.add_member'),
+    url(r'^/actualizar_miembro/(?P<identification>\d+)$', 'infelcom.views.update_member'),
+    url(r'^/eliminar_miembro/(?P<identification>\d+)$', 'infelcom.views.delete_member'),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),

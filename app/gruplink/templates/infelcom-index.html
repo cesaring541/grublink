@@ -125,13 +125,20 @@ Version 2 ############ -->
 																	{%for section in sections%}
 																	<tr>
 																		<td>{{section.id}}</td>
-																		<td><input type="text" field="section_name" value="{{section.section_name}}" placeholder="Nombre"></td>
+																		<td>
+																			{%if section.locked == 0%}
+																			<input type="text" field="section_name" value="{{section.section_name}}" placeholder="Nombre"></td>
+																			{%else%}
+																			{{section.section_name}}
+																			{%endif%}
 																		<td><input type="text" field="section_title" value="{{section.section_title}}" placeholder="Título"></td>
 																		<td><input type="text" field="section_index" value="{{section.section_index}}" placeholder="Índice"></td>
 																		<td>
+																			{%if section.locked == 0%}
 																			<a class="btn btn-danger" href="borrar_seccion/{{section.id}}">
 																				<i class="fa-icon-trash"></i>
 																			</a>
+																			{%endif%}
 																		</td>
 																	</tr>
 																	{%endfor%}
@@ -352,12 +359,12 @@ Version 2 ############ -->
 		</div>
 	</section>
 
-	<section id="integrantes">
+	<section id="miembros">
 		<header>
 			<div class="page-header ">
 				<div class="container">
 					<div class="row-fluid">
-						<h3>Integrantes <small class="visible-desktop"></small></h3>
+						<h3>Miembros</h3>
 					</div>
 				</div>	
 			</div>
@@ -365,152 +372,34 @@ Version 2 ############ -->
 		<div class="container">
 			<div class="row-fluid" id="show4">
 
+				{%for member in members%}
 				<div class="thumbnail span3">
 
 					<div class="sample project-item-image-container">
-						<img src="{{MEDIA_URL}}images/staff5.jpg" alt=""/>
+						<img src="{{MEDIA_URL}}{{member.profile_img}}" alt=""/>
 					</div>
 
 					<div class="caption team-caption">
 						<div class="transit-to-top">
-							<h4 class="">Ing. Jorge Otalora</h4>
-							<small>Director de escuela</small>
+							<h4 class="">{{member.name}} {{member.last_name}}</h4>
+							<small>{{member.charge}}</small>
 
 							<div class="widget_nav_menu"> 
-								<a class="btn btn-medium">Ver perfil</a>
+								<a class="btn btn-medium" href="/infelcom/perfil/{{member.id}}">Ver perfil</a>
 								<ul class="social-top">
-									<li><a href="#" title=""><i class="fa-icon-facebook"></i></a></li>
-									<li><a href="#" title=""><i class="fa-icon-twitter"></i></a></li>
-									<li><a href="#" title=""><i class="fa-icon-google-plus"></i></a></li>
+									{%for link in links%}
+									{%if link.member.id == member.id%}
+									<li><a href="{{link.url}}" title="{{link.title}}">
+										<i class="{{link.icon}}"></i></a>
+									</li>
+									{%endif%}
+									{%endfor%}
 								</ul>
 							</div>
 						</div> 
 					</div>
 				</div>
-
-				<div class="thumbnail span3">
-
-					<div class="sample project-item-image-container">
-						<img src="{{MEDIA_URL}}images/staff5.jpg" alt=""/>
-					</div>
-
-					<div class="caption team-caption">
-						<div class="transit-to-top">
-							<h3 class="">Ing. Jorge Otalora <small>Director de escuela</small></h3>
-
-							<div class="widget_nav_menu"> 
-								<ul class="social-top">
-									<li><a href="#" title=""><i class="fa-icon-facebook"></i></a></li>
-									<li><a href="#" title=""><i class="fa-icon-twitter"></i></a></li>
-									<li><a href="#" title=""><i class="fa-icon-github-alt"></i></a></li>
-									<li><a href="#" title=""><i class="fa-icon-linkedin"></i></a></li>
-								</ul>
-
-							</div>
-						</div> 
-					</div>
-				</div>
-
-				<div class="thumbnail span3">
-
-					<div class="sample project-item-image-container">
-						<img src="{{MEDIA_URL}}images/staff5.jpg" alt=""/>
-					</div>
-
-					<div class="caption team-caption">
-						<div class="transit-to-top">
-							<h3 class="">Ing. Jorge Otalora <small>Director de escuela</small></h3>
-
-							<div class="widget_nav_menu"> 
-								<ul class="social-top">
-									<li><a href="#" title=""><i class="fa-icon-facebook"></i></a></li>
-									<li><a href="#" title=""><i class="fa-icon-twitter"></i></a></li>
-									<li><a href="#" title=""><i class="fa-icon-github-alt"></i></a></li>
-									<li><a href="#" title=""><i class="fa-icon-google-plus"></i></a></li>
-									<li><a href="#" title=""><i class="fa-icon-linkedin"></i></a></li>
-								</ul>
-
-							</div>
-						</div> 
-					</div>
-				</div>
-
-
-
-
-				<div class="thumbnail span3">
-
-					<div class="sample project-item-image-container">
-						<img src="{{MEDIA_URL}}images/staff4.jpg" alt=""/>
-					</div> 
-
-
-
-					<div class="caption team-caption">
-						<div class="transit-to-top">
-							<h3 class="">John Doe <small>CEO, OnePager</small></h3>
-							<div class="widget_nav_menu"> 
-								<ul class="social-top">
-									<li><a href="#" title=""><i class="fa-icon-facebook"></i></a></li>
-									<li><a href="#" title=""><i class="fa-icon-twitter"></i></a></li>
-									<li><a href="#" title=""><i class="fa-icon-github-alt"></i></a></li>
-									<li><a href="#" title=""><i class="fa-icon-google-plus"></i></a></li>
-									<li><a href="#" title=""><i class="fa-icon-linkedin"></i></a></li>
-								</ul>
-							</div>
-						</div> 
-					</div>
-				</div>
-
-				<div class="thumbnail span3">
-
-					<div class="sample project-item-image-container">
-						<img src="{{MEDIA_URL}}images/staff3.jpg" alt=""/>
-					</div> 
-
-
-
-					<div class="caption team-caption">
-						<div class="transit-to-top">
-							<h3 class="">John Doe <small>CEO, OnePager</small></h3>
-							<div class="widget_nav_menu"> 
-								<ul class="social-top">
-									<li><a href="#" title=""><i class="fa-icon-facebook"></i></a></li>
-									<li><a href="#" title=""><i class="fa-icon-twitter"></i></a></li>
-									<li><a href="#" title=""><i class="fa-icon-github-alt"></i></a></li>
-									<li><a href="#" title=""><i class="fa-icon-google-plus"></i></a></li>
-									<li><a href="#" title=""><i class="fa-icon-linkedin"></i></a></li>
-								</ul>
-
-							</div>
-						</div> 
-					</div>
-				</div>
-
-				<div class="thumbnail span3">
-
-					<div class="sample project-item-image-container">
-						<img src="{{MEDIA_URL}}images/staff2.jpg" alt=""/>
-					</div> 
-
-
-
-					<div class="caption team-caption">
-						<div class="transit-to-top">
-							<h3 class="">John Doe <small>CEO, OnePager</small></h3>
-
-							<div class="widget_nav_menu"> 
-								<ul class="social-top">
-									<li><a href="#" title=""><i class="fa-icon-facebook"></i></a></li>
-									<li><a href="#" title=""><i class="fa-icon-twitter"></i></a></li>
-									<li><a href="#" title=""><i class="fa-icon-github-alt"></i></a></li>
-									<li><a href="#" title=""><i class="fa-icon-google-plus"></i></a></li>
-									<li><a href="#" title=""><i class="fa-icon-linkedin"></i></a></li>
-								</ul>
-							</div>
-						</div> 
-					</div>
-				</div>
+				{%endfor%}
 			</div>
 		</div>
 	</section>

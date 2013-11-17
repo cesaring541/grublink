@@ -198,9 +198,53 @@ $(document).ready(function(){
 		document.location.href='eliminar_slide/'+$('.displayed').attr('aspect-id');
 	});
 
+	$('.edit_textarea').editable(function(value, settings) { 
+		$("#member_description").val(value);
+		return(value);
+	}, { 
+		type    : 'textarea',
+		submit  : 'OK',
+	});
+
+	$('#edit_name').editable(function(value, settings) { 
+		$("#member_name").val(value);
+		return(value);
+	}, { 
+		type    : 'text',
+		submit  : 'OK',
+	});
+
+	$('#edit_lastname').editable(function(value, settings) { 
+		$("#member_lastname").val(value);
+		return(value);
+	}, { 
+		type    : 'text',
+		submit  : 'OK',
+	});
+
+
+	$('.edit_charge').editable(function(value, settings) { 
+		$("#member_charge").val(value);
+		return(value);
+	}, { 
+		data   : " {'Director':'Director','Semillero':'Semillero','Investigador':'Investigador', 'selected':'Director'}",
+		type   : 'select',
+		submit : 'OK'
+	});
+
+	$(".link_editable").editable(function(value, settings) { 
+		$("#member_cvlac").val(value);
+		return(value);
+	}, { 
+		type      : "text",
+		tooltip   : "Move mouseover to edit...",
+		event     : "click",
+		submit : 'OK'
+	});
+
+	$(".thumbnail img").click(function(){
+		$("#member_image").click();
+	});
 });
 
 
-var load_data=function(slide){
-
-}

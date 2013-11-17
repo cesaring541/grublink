@@ -4,7 +4,7 @@
 
 from django.shortcuts import render_to_response, HttpResponseRedirect
 from django.template import RequestContext
-from infelcom.models import Section, Slide, Aspect, Content
+from infelcom.models import Section, Slide, Aspect, Content, Member, ProfileLinks, Project
 import re
 
 from django.utils import translation
@@ -24,12 +24,16 @@ def home(request):
 	slides=Slide.objects.all().order_by('slide_index')
 	slides_pagers=range(1,len(slides)+1)
 	aspects= Aspect.objects.all().order_by('index')
+	members=Member.objects.all()
+	links=ProfileLinks.objects.all()
 
 	return render_to_response ('infelcom-index.html', 
 							  	{'sections':sections, 
 							  	 'slides':slides, 
 							  	 'slides_pagers':slides_pagers,
-							  	 'aspects':aspects
+							  	 'aspects':aspects,
+							  	 'members':members,
+							  	 'links':links
 							  	}, context_instance=RequestContext(request))
 
 def add_section(request):
@@ -163,8 +167,106 @@ def update_aspect(request):
 	aspect.icon_name=icon_name
 	aspect.index=index
 	aspect.content=content
-	
 
+def load_profile_form(request):
+	
+	lang=str(request.LANGUAGE_CODE)
+	sections = Section.objects.filter(section_lang=lang).order_by('section_index')
+	projects_to_add=Project.objects.all()
+
+	return render_to_response ('member.html', 
+							  	{'adding':True, 'sections':sections, 'projects_to_add':projects_to_add}, context_instance=RequestContext(request))
+
+def load_profile(request, identification):
+	
+	member = Member.objects.get(id=identification)
+	
+	lang=str(request.LANGUAGE_CODE)
+	sections = Section.objects.filter(section_lang=lang).order_by('section_index')
+	links=ProfileLinks.objects.filter(member=member)
+	projects=Project.objects.filter(members__id__exact=member.id)
+
+
+	return render_to_response ('member.html', 
+							  	{'sections':sections, 
+							  	 'member':member,
+							  	 'links':links,
+							  	 'projects':projects
+							  	}, context_instance=RequestContext(request))
+
+def add_member(request):
+
+	name=request.POST.get('name')
+	last_name=request.POST.get('lastname')
+	charge=request.POST.get('charge')
+	cvlac=request.POST.get('cvlac')
+	description=request.POST.get('description')
+	profile_img=request.FILES.get('image')
+
+
+	new_member=Member(name=name, last_name=last_name, charge=charge,
+		profile_img=profile_img, cv_lac=cvlac, about=description)
+	new_member.save()
+
+	projects=request.POST.getlist('projects')
+
+	print "list", projects
+	
+	for project_id in projects:
+		project_id=int(project_id)
+		project=Project.objects.get(id=project_id)
+		project.members.add(new_member)
+		project.save()
+
+
+
+	return HttpResponseRedirect("/infelcom/#miembros")
+
+
+
+def update_member(request, identification):
+
+	member=Member.objects.get(id=identification)
+
+	name=request.POST.get('name')
+	last_name=request.POST.get('lastname')
+	charge=request.POST.get('charge')
+	cvlac=request.POST.get('cvlac')
+	description=request.POST.get('description')
+	profile_img=request.FILES.get('image') if request.FILES.get('image') else member.profile_img
+
+
+	member.name=name
+	member.last_name=last_name
+	member.charge=charge
+	member.profile_img=profile_img
+	member.cv_lac=cvlac
+	member.about=description
+
+	member.save()
+
+	projects=request.POST.getlist('projects')
+
+	print "list", projects
+	
+	for project_id in projects:
+		project_id=int(project_id)
+		project=Project.objects.get(id=project_id)
+		project.members.add(new_member)
+		project.save()
+
+	return HttpResponseRedirect("/infelcom/#miembros")
+
+def delete_member(request, identification):
+	member=Member.objects.get(id=identification)
+	links=ProfileLinks.objects.filter(member=member)
+
+	for link in links:
+		link.delete()
+
+	member.delete()
+
+	return HttpResponseRedirect("/infelcom/#miembros")
 
 
 	# print(new_slide.slide_bg)

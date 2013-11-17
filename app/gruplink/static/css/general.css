@@ -11,7 +11,7 @@
 
 	body{
 		background: #f5f5f5 /*f1f7fe*/;
-		font-family: 'Noto Sans', sans-serif;
+		font-family: 'Raleway', sans-serif;
 		/*font-family: 'Roboto', sans-serif;
 				font-family: 'Sintony', sans-serif;*/
 				font-size:16px;
@@ -1504,4 +1504,13 @@ padding-top: 18px;
 .transit-to-top .btn{
 	width: 85%;
 	margin: 10px 0;
+}
+
+.span3_5{
+	width: 20% !important;
+	margin-right: 30px;
+}
+
+.thumbnail img{
+	cursor: pointer;
 }
