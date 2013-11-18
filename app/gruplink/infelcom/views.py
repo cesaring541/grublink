@@ -4,7 +4,7 @@
 
 from django.shortcuts import render_to_response, HttpResponseRedirect
 from django.template import RequestContext
-from infelcom.models import Section, Slide, Aspect, Content, Member, ProfileLinks, Project
+from infelcom.models import Section, Slide, Aspect, Content, Member, ProfileLinks, Project, Product
 import re
 
 from django.utils import translation
@@ -26,6 +26,8 @@ def home(request):
 	aspects= Aspect.objects.all().order_by('index')
 	members=Member.objects.all()
 	links=ProfileLinks.objects.all()
+	projects=Project.objects.all()
+	products=Product.objects.all()
 
 	return render_to_response ('infelcom-index.html', 
 							  	{'sections':sections, 
@@ -33,7 +35,9 @@ def home(request):
 							  	 'slides_pagers':slides_pagers,
 							  	 'aspects':aspects,
 							  	 'members':members,
-							  	 'links':links
+							  	 'links':links,
+							  	 'projects':projects,
+							  	 'products':products
 							  	}, context_instance=RequestContext(request))
 
 def add_section(request):
@@ -142,9 +146,6 @@ def add_aspect(request):
 		title=title, lang=request.LANGUAGE_CODE, 
 		icon_name=icon_name, index=int(index), content=content)
 
-
-	# print(new_slide.slide_bg)
-
 	new_aspect.save()
 
 	return HttpResponseRedirect("/infelcom")
@@ -172,10 +173,11 @@ def load_profile_form(request):
 	
 	lang=str(request.LANGUAGE_CODE)
 	sections = Section.objects.filter(section_lang=lang).order_by('section_index')
-	projects_to_add=Project.objects.all()
+	all_projects=Project.objects.all()
+	all_products=Product.objects.all()
 
 	return render_to_response ('member.html', 
-							  	{'adding':True, 'sections':sections, 'projects_to_add':projects_to_add}, context_instance=RequestContext(request))
+							  	{'adding':True, 'sections':sections, 'all_projects':all_projects, 'all_products':all_products}, context_instance=RequestContext(request))
 
 def load_profile(request, identification):
 	
@@ -184,14 +186,19 @@ def load_profile(request, identification):
 	lang=str(request.LANGUAGE_CODE)
 	sections = Section.objects.filter(section_lang=lang).order_by('section_index')
 	links=ProfileLinks.objects.filter(member=member)
-	projects=Project.objects.filter(members__id__exact=member.id)
-
+	all_projects=Project.objects.all()
+	user_projects=Project.objects.filter(members__id__exact=member.id)
+	all_products=Product.objects.all()
+	user_products=Product.objects.filter(members__id__exact=member.id)
 
 	return render_to_response ('member.html', 
 							  	{'sections':sections, 
 							  	 'member':member,
 							  	 'links':links,
-							  	 'projects':projects
+							  	 'all_projects':all_projects,
+							  	 'user_projects':user_projects,
+							  	 'all_products':all_products,
+							  	 'user_products':user_products
 							  	}, context_instance=RequestContext(request))
 
 def add_member(request):
@@ -201,7 +208,7 @@ def add_member(request):
 	charge=request.POST.get('charge')
 	cvlac=request.POST.get('cvlac')
 	description=request.POST.get('description')
-	profile_img=request.FILES.get('image')
+	profile_img=request.FILES.get('image') if request.FILES.get('image') else "profiles_img/profile.png"
 
 
 	new_member=Member(name=name, last_name=last_name, charge=charge,
@@ -209,14 +216,19 @@ def add_member(request):
 	new_member.save()
 
 	projects=request.POST.getlist('projects')
-
-	print "list", projects
+	products=request.POST.getlist('products')
 	
 	for project_id in projects:
 		project_id=int(project_id)
 		project=Project.objects.get(id=project_id)
 		project.members.add(new_member)
 		project.save()
+
+	for product_id in products:
+		product_id=int(product_id)
+		product=Product.objects.get(id=product_id)
+		product.members.add(new_member)
+		product.save()
 
 
 
@@ -246,20 +258,45 @@ def update_member(request, identification):
 	member.save()
 
 	projects=request.POST.getlist('projects')
+	products=request.POST.getlist('products')
 
-	print "list", projects
+	del_projects=Project.objects.filter(members__id__exact=member.id)
+
+	for project in del_projects:
+		project.members.remove(member)
 	
 	for project_id in projects:
 		project_id=int(project_id)
 		project=Project.objects.get(id=project_id)
-		project.members.add(new_member)
+		project.members.add(member)
 		project.save()
+
+	del_products=Product.objects.filter(members__id__exact=member.id)
+
+	for product in del_products:
+		product.members.remove(member)
+	
+	for product_id in products:
+		product_id=int(product_id)
+		product=Product.objects.get(id=product_id)
+		product.members.add(member)
+		product.save()
 
 	return HttpResponseRedirect("/infelcom/#miembros")
 
 def delete_member(request, identification):
 	member=Member.objects.get(id=identification)
 	links=ProfileLinks.objects.filter(member=member)
+
+	del_projects=Project.objects.filter(members__id__exact=member.id)
+
+	for project in del_projects:
+		project.members.remove(member)
+
+	del_products=Product.objects.filter(members__id__exact=member.id)
+
+	for product in del_products:
+		product.members.remove(member)
 
 	for link in links:
 		link.delete()
@@ -269,11 +306,112 @@ def delete_member(request, identification):
 	return HttpResponseRedirect("/infelcom/#miembros")
 
 
-	# print(new_slide.slide_bg)
 
-	aspect.save()
+def load_project_form(request):
+	
+	lang=str(request.LANGUAGE_CODE)
+	sections = Section.objects.filter(section_lang=lang).order_by('section_index')
+	members=Member.objects.all()
 
-	return HttpResponseRedirect("/infelcom")
+	return render_to_response ('project.html', 
+							  	{'adding':True, 'sections':sections, 'members':members}, context_instance=RequestContext(request))
+
+def load_project(request, identification):
+	
+	project = Project.objects.get(id=identification)
+	
+	lang=str(request.LANGUAGE_CODE)
+	sections = Section.objects.filter(section_lang=lang).order_by('section_index')
+	members=Member.objects.all()
+	project_members=project.members.all()
+	
+	return render_to_response ('project.html', 
+							  	{'sections':sections, 
+							  	 'project':project,
+							  	 'members':members,
+							  	 'project_members':project_members
+							  	}, context_instance=RequestContext(request))
+
+def add_project(request):
+
+	title=request.POST.get('title')
+	status=request.POST.get('status')
+	progress=request.POST.get('progress')
+	more_url=request.POST.get('more_url')
+	description=request.POST.get('description')
+	image=request.FILES.get('image') if request.FILES.get('image') else "projects_img/project.png"
+
+	print title, status, progress, more_url, description, image
+
+	new_project=Project(title=title, description=description, status=status, progress=10, url=more_url, project_img=image)
+	new_project.save()
+
+	members=request.POST.getlist('members')
+	
+	print members
+	
+	for member_id in members:
+		member_id=int(member_id)
+		member=Member.objects.get(id=member_id)
+		new_project.members.add(member)
+		new_project.save()
+
+	return HttpResponseRedirect("/infelcom/#proyectos")
+
+
+def update_project(request, identification):
+
+	project=Project.objects.get(id=identification)
+
+	title=request.POST.get('title')
+	status=request.POST.get('status')
+	progress=request.POST.get('progress')
+	more_url=request.POST.get('more_url')
+	description=request.POST.get('description')
+	image=request.FILES.get('image') if request.FILES.get('image') else "projects_img/project.png"
+
+	project.title=title
+	project.description=description
+	project.status=status
+	project.progress=10
+	project.url=more_url
+	project.project_img=image
+
+	project.save()
+
+	members=request.POST.getlist('members')
+
+	print "mem", members
+
+	members_to_del=project.members.all()
+
+	for member in members_to_del:
+		project.members.remove(member)
+	
+	for member_id in members:
+		member_id=int(member_id)
+		member=Member.objects.get(id=member_id)
+		project.members.add(member)
+		project.save()
+
+	return HttpResponseRedirect("/infelcom/#proyectos")
+
+def delete_project(request, identification):
+	project=Project.objects.get(id=identification)
+	
+	del_members=project.members.all()
+
+	for member in del_members:
+		project.members.remove(member)
+
+	
+	project.delete()
+
+	return HttpResponseRedirect("/infelcom/#proyectos")
+
+
+
+
 
 def delete_slide(request, identification):
 	

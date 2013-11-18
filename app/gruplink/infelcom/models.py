@@ -51,7 +51,7 @@ class Member(models.Model):
 	name=models.CharField(max_length=100,null=False)
 	last_name=models.CharField(max_length=100,null=False)
 	charge=models.CharField(max_length=50, null=False)
-	profile_img=models.ImageField(upload_to='profiles_img')
+	profile_img=models.ImageField(upload_to='profiles_img', default="profile.png")
 	about=models.CharField(max_length=1000, null=False)
 	cv_lac=models.CharField(max_length=200,null=False)
 
@@ -69,15 +69,15 @@ class Project(models.Model):
 	progress=models.IntegerField(max_length=3)
 	aditional_info=models.CharField(max_length=1000,null=False)
 	url=models.CharField(max_length=200,null=False)
+	project_img=models.ImageField(upload_to='projects_img')
 
 class Product(models.Model):
 	title=models.CharField(max_length=200,null=False)
 	description=models.CharField(max_length=1000,null=False)
 	members=models.ManyToManyField(Member)
-	status=models.CharField(max_length=50, null=False)
-	progress=models.IntegerField(max_length=3)
 	aditional_info=models.CharField(max_length=1000,null=False)
 	url=models.CharField(max_length=200,null=False)
+	product_img=models.ImageField(upload_to='products_img')
 
 
 

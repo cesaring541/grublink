@@ -364,7 +364,11 @@ Version 2 ############ -->
 			<div class="page-header ">
 				<div class="container">
 					<div class="row-fluid">
-						<h3>Miembros</h3>
+						<h3>Miembros 
+						{%if request.session.user == 'admin'%}
+						<a href="/infelcom/perfil/nuevo" class="btn">Agregar miembro</a>
+						{%endif%}
+						</h3>
 					</div>
 				</div>	
 			</div>
@@ -420,43 +424,45 @@ Version 2 ############ -->
 		<div class="container">
 
 			<div class="row demo-tiles" id="groups">
-
+				{%for project in projects%}
 				<div class="span3">
 					<div class="feature-box">
-						<img class="feature-box-image" alt="" src="{{MEDIA_URL}}images/gis.png">
-						<h4 class="feature-box-title">GIS</h4>
-						<p>Grupo de Investigacion en Software</p><br>
-						<a class="btn btn-large btn-block" href="#">Ver sitio</a>
+						<img class="feature-box-image" alt="" src="{{MEDIA_URL}}{{project.project_img}}">
+						<h4 class="feature-box-title">{{project.title}}</h4><br>
+						<a class="btn btn-large btn-block" href="/infelcom/proyecto/{{project.id}}">Ver proyecto</a>
 					</div>
 				</div>
+				{%endfor%}
+			</div>
 
-				<div class="span3" style="display:table-cell;">
+		</div> 
+
+	</section>
+
+	<section  id="productos">
+		<!-- Header -->
+		<header class="" >
+			<div class="page-header ">
+				<div class="container">
+					<div class="row-fluid">
+						<h3>Productos <small class="visible-desktop"></small></h3>
+					</div>
+				</div>	
+			</div>
+		</header>
+
+		<div class="container">
+
+			<div class="row demo-tiles" id="groups">
+				{%for product in products%}
+				<div class="span3">
 					<div class="feature-box">
-						<img class="feature-box-image" alt="" src="{{MEDIA_URL}}images/infelcom.png">
-						<h4 class="feature-box-title">INFELCOM</h4>
-						<p>Grupo de Investigación en Informática, Electrónica y Comunicaciones </p>
-						<a   class="btn btn-large btn-block infelcom" href="#">Ver sitio</a>
+						<img class="feature-box-image" alt="" src="{{MEDIA_URL}}{{product.product_img}}">
+						<h4 class="feature-box-title">{{product.title}}</h4><br>
+						<a class="btn btn-large btn-block" href="/infelcom/producto/{{product.id}}">Ver producto</a>
 					</div>
 				</div>
-
-				<div class="span3" style="display:table-cell;">
-					<div class="feature-box">
-						<img class="feature-box-image" alt="" src="{{MEDIA_URL}}images/gimi.png">
-						<h4 class="feature-box-title">GIMI</h4>
-						<p>Grupo Investigación en Manejo de Información</p><br>
-						<a class="btn btn-large btn-block" href="#">Ver sitio</a>
-					</div>
-				</div>
-
-				<div class="span3" style="display:table-cell;">
-					<div class="feature-box feature-box-hot">
-						<img class="feature-box-image" alt="" src="{{MEDIA_URL}}images/illustrations/timec.png">
-						<h4 class="feature-box-title">GALASH</h4>
-						<p>Grupo de Investigación en Auditoría Lógica y Arquitectura de Software y Hardware</p>
-						<a class="btn btn-large btn-block" href="#">Ver sitio</a>
-					</div>
-				</div>
-
+				{%endfor%}
 			</div>
 
 		</div> 

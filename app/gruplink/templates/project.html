@@ -199,38 +199,37 @@ Version 2 ############ -->
   						<div class="responsive-slider" style="box-shadow:none; padding:30px 0;">
   							<div class="container">
   								{%if request.session.user == 'admin'%}
-  								<div class="member_toolbar btn-group">
-  									<a href="/infelcom/perfil/nuevo" class="btn" id="btn_add_member"><i class="fa-icon-plus"></i></a>
-  									<a href="/infelcom/eliminar_miembro/{{member.id}}" class="btn" id="btn_del_member"><i class="fa-icon-trash"></i></a>
+  								<div class="project_toolbar btn-group">
+  									<a href="/infelcom/proyecto/nuevo" class="btn" id="btn_add_member"><i class="fa-icon-plus"></i></a>
+  									<a href="/infelcom/eliminar_proyecto/{{project.id}}" class="btn" id="btn_del_member"><i class="fa-icon-trash"></i></a>
   								</div>
   								{%endif%}
 
   								<div class="row-fluid" id="show4">
   									{%if request.session.user == 'admin'%}
   									<form style="display:none" id="member_add_form" 
-  									{%if adding%}action="/infelcom/agregar_miembro"
-  									{%else%}action="/infelcom/actualizar_miembro/{{member.id}}"{%endif%}
+  									{%if adding%}action="/infelcom/agregar_proyecto"
+  									{%else%}action="/infelcom/actualizar_proyecto/{{project.id}}"{%endif%}
   									enctype="multipart/form-data" method="POST">
   									{% csrf_token %}
-	  									<input type="hidden" id="member_name" name="name" value="{{member.name}}"/>
-	  									<input type="hidden" id="member_lastname" name="lastname" value="{{member.last_name}}"/>
-	  									<input type="hidden" id="member_charge" name="charge" value="{{member.charge}}"/>
-	  									<input type="hidden" id="member_cvlac" name="cvlac" value="{{member.cv_lac}}"/>
-	  									<input type="hidden" id="member_description" name="description" value="{{member.about}}"/>
-	  									<input type="file" id="member_image" name="image" style="display:none"/>
+	  									<input type="hidden" id="project_title" name="title" value="{{project.title}}"/>
+	  									<input type="hidden" id="project_status" name="status" value="{{project.status}}"/>
+	  									<input type="hidden" id="project_progress" name="progress" value="{{project.progress}}"/>
+	  									<input type="hidden" id="project_moreurl" name="more_url" value="{{project.url}}"/>
+	  									<input type="hidden" id="project_description" name="description" value="{{project.description}}"/>
+	  									<input type="file" id="project_image" name="image" style="display:none"/>
   									</form>
 
   									<input type="submit" form="member_add_form" class="btn btn-success" value="Guardar"/>
   									{%endif%}
   									<div class="thumbnail span3_5">
 
-  										<div class="sample project-item-image-container">
+  										<div class="sample project-item-image-container" style="text-align:center; padding-top:20px;">
   											{%if adding%}
-  											<img src="{{MEDIA_URL}}profiles_img/profile.png" alt=""/>
+  											<img src="{{MEDIA_URL}}projects_img/project.png" alt=""/>
   											{%else%}
-  											<img src="{{MEDIA_URL}}{{member.profile_img}}" alt=""/>
+  											<img src="{{MEDIA_URL}}{{project.project_img}}" alt=""/>
   											{%endif%}
-  											
   										</div>
 
   										<div class="caption team-caption">
@@ -240,123 +239,68 @@ Version 2 ############ -->
   														{%if adding%}
 
   														{%else%}
-  														{{member.name}}
-  														{%endif%}
-  													</span>
-  													<span id="edit_lastname">
-  														{%if adding%}
-
-  														{%else%}
-  														{{member.last_name}}
+  														{{project.title}}
   														{%endif%}
   													</span>
   												</h4>
-  												<small class="edit_charge">
+                          <small>Estado:</small>
+  												<small class="edit_status">
   													{%if adding%}
-  													Cargo
+  													Estado
   													{%else%}
-  													{{member.charge}}
+  													{{project.status}}
   													{%endif%}
   												</small>
-
-  												<div class="widget_nav_menu"> 
-  													<ul class="social-top">
-  														{%for link in links%}
-  														<li><a href="{{link.url}}" title="{{link.title}}">
-  															<i class="{{link.icon}}"></i></a>
-  														</li>
-  														{%endfor%}
-  													</ul>
-  												</div>
   											</div> 
   										</div>
   									</div>
 
   									<div class="work span8">
-  										<p class="edit_textarea">{{member.about}}</p>
-  										<h3>CvLAC</h3>
-  										{%if member.cv_lac%}
-  										<a target="_blank" class="link_editable" href="{{member.cv_lac}}">{{member.cv_lac}}</a>
+  										<p class="edit_textarea">{{project.description}}</p>
+  										<h3>Mas información en:</h3>
+  										{%if project.url%}
+  										<a target="_blank" class="link_editable" href="{{project.url}}">{{project.url}}</a>
   										{%else%}
-  										<a target="_blank" class="link_editable">No se ha añadido CvLAC</a>
+  										<a target="_blank" class="link_editable">Proporcionar una URL</a>
   										{%endif%}
 
 
-  										<h3>Proyectos</h3>
+  										<h3>Miembros</h3>
   										{%if adding%}
-  											Seleccione los proyectos en los que participa o ha participado el miembro.
-	  										<select form="member_add_form" name="projects" multiple>
-	  											{%for project in all_projects%}
-	  											<option value="{{project.id}}">
-	  												{{project.title}}
-	  											</option>
+  											Seleccione los miembros que participan o han participado en el proyecto.
+	  										<select form="member_add_form" name="members" multiple>
+	  											{%for member in members%}
+  	  											<option value="{{member.id}}">
+  	  												{{member.name}} {{member.last_name}}
+  	  											</option>
 	  											{%endfor%}
 	  										</select>
 	  									{%else%}
+
 		  									{%if request.session.user == 'admin'%}
-		  									<select form="member_add_form" name="projects" multiple>
-		  									{%for project in all_projects%}
+		  									<select form="member_add_form" name="members" multiple>
+		  									{%for member in members%}
 			  									{%if member in project.members.all%}
-			  									<option value="{{project.id}}" selected>
-			  										{{project.title}}
+			  									<option value="{{member.id}}" selected>
+			  										{{member.name}} {{member.last_name}}
 			  									</option>
 			  									{%else%}
-			  									<option value="{{project.id}}">
-			  										{{project.title}}
-			  									</option>
+			  									<option value="{{member.id}}">
+                            {{member.name}} {{member.last_name}}
+                          </option>
 			  									{%endif%}
 		  									{%endfor%}
 		  									</select>
 		  											
 		  									{%else%}
 		  										<ul>
-		  											{%for project in user_projects%}
+		  											{%for member in project_members%}
 		  											<li>
-		  												{{project.title}} ({{project.status}})
-		  												<a href="/infelcom/proyecto/{{project.id}}">Ver</a>
+		  												{{member.name}} {{member.last_name}}
+		  												<a href="/infelcom/perfil/{{member.id}}">Ver Perfil</a>
 		  											</li>
 		  											{%empty%}
-		  											Este miembro no registra proyectos aún.
-		  											{%endfor%}
-		  										</ul>
-		  									{%endif%}
-  										{%endif%}
-  										
-
-  										<h3>Productos</h3>
-  										{%if adding%}
-  											Seleccione los productos en los que ha participado el miembro.<br>
-	  										<select form="member_add_form" name="products" multiple>
-	  											{%for product in all_products%}
-	  											<option value="{{product.id}}">
-	  												{{product.title}}
-	  											</option>
-	  											{%endfor%}
-	  										</select>
-	  									{%else%}
-		  									{%if request.session.user == 'admin'%}
-			  									<select form="member_add_form" name="products" multiple>
-			  									{%for product in all_products%}
-				  									{%if member in product.members.all%}
-				  									<option value="{{product.id}}" selected>
-				  										{{product.title}}
-				  									</option>
-				  									{%else%}
-				  									<option value="{{product.id}}">
-				  										{{product.title}}
-				  									</option>
-				  									{%endif%}
-			  									{%endfor%}
-			  									</select>
-		  									{%else%}
-		  										<ul>
-		  											{%for product in user_products%}
-		  											<li>
-		  												{{product.title}}
-		  												<a href="/infelcom/producto/{{product.id}}">Ver</a>
-		  											</li>
-		  											{%empty%}
-		  											Este miembro no registra productos aún.
+		  											Este proyecto no registra miembros aún.
 		  											{%endfor%}
 		  										</ul>
 		  									{%endif%}

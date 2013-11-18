@@ -29,6 +29,19 @@ urlpatterns = patterns('',
     url(r'^/actualizar_miembro/(?P<identification>\d+)$', 'infelcom.views.update_member'),
     url(r'^/eliminar_miembro/(?P<identification>\d+)$', 'infelcom.views.delete_member'),
 
+
+    url(r'^/proyecto/nuevo$', 'infelcom.views.load_project_form'),
+    url(r'^/proyecto/(?P<identification>\d+)$', 'infelcom.views.load_project'),
+    url(r'^/agregar_proyecto', 'infelcom.views.add_project'),
+    url(r'^/actualizar_proyecto/(?P<identification>\d+)$', 'infelcom.views.update_project'),
+    url(r'^/eliminar_proyecto/(?P<identification>\d+)$', 'infelcom.views.delete_project'),
+
+    url(r'^/producto/nuevo$', 'infelcom.views.load_product_form'),
+    url(r'^/producto/(?P<identification>\d+)$', 'infelcom.views.load_product'),
+    url(r'^/agregar_producto', 'infelcom.views.add_product'),
+    url(r'^/actualizar_producto/(?P<identification>\d+)$', 'infelcom.views.update_product'),
+    url(r'^/eliminar_producto/(?P<identification>\d+)$', 'infelcom.views.delete_product'),
+
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
