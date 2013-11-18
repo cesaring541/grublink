@@ -415,7 +415,11 @@ Version 2 ############ -->
 			<div class="page-header ">
 				<div class="container">
 					<div class="row-fluid">
-						<h3>Proyectos <small class="visible-desktop"></small></h3>
+						<h3>Proyectos
+							{%if request.session.user == 'admin'%}
+							<a href="/infelcom/proyecto/nuevo" class="btn">Agregar proyecto</a>
+							{%endif%}
+						</h3>
 					</div>
 				</div>	
 			</div>
@@ -445,7 +449,11 @@ Version 2 ############ -->
 			<div class="page-header ">
 				<div class="container">
 					<div class="row-fluid">
-						<h3>Productos <small class="visible-desktop"></small></h3>
+						<h3>Productos
+							{%if request.session.user == 'admin'%}
+							<a href="/infelcom/producto/nuevo" class="btn">Agregar producto</a>
+							{%endif%}
+						</h3>
 					</div>
 				</div>	
 			</div>

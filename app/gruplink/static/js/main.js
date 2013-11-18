@@ -201,6 +201,7 @@ $(document).ready(function(){
 	$('.edit_textarea').editable(function(value, settings) { 
 		$("#member_description").val(value);
 		$("#project_description").val(value);
+		$("#product_description").val(value);
 		return(value);
 	}, { 
 		type    : 'textarea',
@@ -210,6 +211,7 @@ $(document).ready(function(){
 	$('#edit_name').editable(function(value, settings) { 
 		$("#member_name").val(value);
 		$("#project_title").val(value);
+		$("#product_title").val(value);
 		return(value);
 	}, { 
 		type    : 'text',
@@ -246,6 +248,7 @@ $(document).ready(function(){
 	$(".link_editable").editable(function(value, settings) { 
 		$("#member_cvlac").val(value);
 		$("#project_moreurl").val(value);
+		$("#product_moreurl").val(value);
 		return(value);
 	}, { 
 		type      : "text",
@@ -257,6 +260,7 @@ $(document).ready(function(){
 	$(".thumbnail img").click(function(){
 		$("#member_image").click();
 		$("#project_image").click();
+		$("#product_image").click();
 	});
 });
 

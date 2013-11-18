@@ -368,7 +368,7 @@ def update_project(request, identification):
 	progress=request.POST.get('progress')
 	more_url=request.POST.get('more_url')
 	description=request.POST.get('description')
-	image=request.FILES.get('image') if request.FILES.get('image') else "projects_img/project.png"
+	image=request.FILES.get('image') if request.FILES.get('image') else project.project_img
 
 	project.title=title
 	project.description=description
@@ -380,9 +380,6 @@ def update_project(request, identification):
 	project.save()
 
 	members=request.POST.getlist('members')
-
-	print "mem", members
-
 	members_to_del=project.members.all()
 
 	for member in members_to_del:
@@ -409,6 +406,102 @@ def delete_project(request, identification):
 
 	return HttpResponseRedirect("/infelcom/#proyectos")
 
+
+def load_product_form(request):
+	
+	lang=str(request.LANGUAGE_CODE)
+	sections = Section.objects.filter(section_lang=lang).order_by('section_index')
+	members=Member.objects.all()
+
+	return render_to_response ('product.html', 
+							  	{'adding':True, 'sections':sections, 'members':members}, context_instance=RequestContext(request))
+
+def load_product(request, identification):
+	
+	product = Product.objects.get(id=identification)
+	
+	lang=str(request.LANGUAGE_CODE)
+	sections = Section.objects.filter(section_lang=lang).order_by('section_index')
+	members=Member.objects.all()
+	product_members=product.members.all()
+
+	
+	return render_to_response ('product.html', 
+							  	{'sections':sections, 
+							  	 'product':product,
+							  	 'members':members,
+							  	 'product_members':product_members
+							  	}, context_instance=RequestContext(request))
+
+def add_product(request):
+
+	title=request.POST.get('title')
+	more_url=request.POST.get('more_url')
+	description=request.POST.get('description')
+	image=request.FILES.get('image') if request.FILES.get('image') else "products_img/product.png"
+
+	new_product=Product(title=title, description=description, url=more_url, product_img=image)
+	new_product.save()
+
+	members=request.POST.getlist('members')
+	
+	print members
+	
+	for member_id in members:
+		member_id=int(member_id)
+		member=Member.objects.get(id=member_id)
+		new_product.members.add(member)
+		new_product.save()
+
+	return HttpResponseRedirect("/infelcom/#productos")
+
+
+def update_product(request, identification):
+
+	product=Product.objects.get(id=identification)
+
+	title=request.POST.get('title')
+	more_url=request.POST.get('more_url')
+	description=request.POST.get('description')
+	image=request.FILES.get('image') if request.FILES.get('image') else product.product_img
+
+	product.title=title
+	product.description=description
+	product.url=more_url
+	product.product_img=image
+
+	product.save()
+
+	members=request.POST.getlist('members')
+
+	print "MAM", members
+
+	members_to_del=product.members.all()
+
+	for member in members_to_del:
+		product.members.remove(member)
+	
+	for member_id in members:
+		member_id=int(member_id)
+		member=Member.objects.get(id=member_id)
+		product.members.add(member)
+		product.save()
+
+	return HttpResponseRedirect("/infelcom/#productos")
+
+
+def delete_product(request, identification):
+	product=Product.objects.get(id=identification)
+	
+	del_members=product.members.all()
+
+	for member in del_members:
+		product.members.remove(member)
+
+	
+	product.delete()
+
+	return HttpResponseRedirect("/infelcom/#productos")
 
 
 
