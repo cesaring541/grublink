@@ -2,13 +2,19 @@ from django.conf.urls import patterns, include, url
 from django.conf.urls.i18n import i18n_patterns
 
 # Uncomment the next two lines to enable the admin:
-# from django.contrib import admin
-# admin.autodiscover()
+from django.contrib import admin
+admin.autodiscover()
 
 urlpatterns = patterns('',
+    # Uncomment the next line to enable the admin:
+    url(r'^admon/', include(admin.site.urls)),
+    
+
     # Examples:
     url(r'^$', 'main.views.home'),
-    url(r'^logout', 'main.views.logout'),
+    url(r'^login$', 'main.views.login_admin'),
+
+    url(r'^logout', 'main.views.logout_view'),
     url(r'^administrador', 'main.views.load_admin'),
     
     url(r'^agregar_seccion', 'main.views.add_section'),
@@ -32,8 +38,6 @@ urlpatterns = patterns('',
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
-    # Uncomment the next line to enable the admin:
-    # url(r'^admin/', include(admin.site.urls)),
 
     url(r'^i18n/', include('django.conf.urls.i18n')),
 

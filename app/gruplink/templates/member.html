@@ -88,7 +88,7 @@ Version 2 ############ -->
   											</li>
   											{%endfor%}
 
-  											{%if request.session.user == 'admin'%}
+  											{%if request.user.username == 'administrador' or request.user.username == 'admin_infelcom'%}
   											<ul class="nav pull-right" id="top_nav_admin">
 
   												<li class="dropdown">
@@ -198,7 +198,7 @@ Version 2 ############ -->
 
   						<div class="responsive-slider" style="box-shadow:none; padding:30px 0;">
   							<div class="container">
-  								{%if request.session.user == 'admin'%}
+  								{%if request.user.username == 'administrador' or request.user.username == 'admin_infelcom'%}
   								<div class="member_toolbar btn-group">
   									<a href="/infelcom/perfil/nuevo" class="btn" id="btn_add_member"><i class="fa-icon-plus"></i></a>
   									<a href="/infelcom/eliminar_miembro/{{member.id}}" class="btn" id="btn_del_member"><i class="fa-icon-trash"></i></a>
@@ -206,7 +206,7 @@ Version 2 ############ -->
   								{%endif%}
 
   								<div class="row-fluid" id="show4">
-  									{%if request.session.user == 'admin'%}
+  									{%if request.user.username == 'administrador' or request.user.username == 'admin_infelcom'%}
   									<form style="display:none" id="member_add_form" 
   									{%if adding%}action="/infelcom/agregar_miembro"
   									{%else%}action="/infelcom/actualizar_miembro/{{member.id}}"{%endif%}
@@ -293,7 +293,7 @@ Version 2 ############ -->
 	  											{%endfor%}
 	  										</select>
 	  									{%else%}
-		  									{%if request.session.user == 'admin'%}
+		  									{%if request.user.username == 'administrador' or request.user.username == 'admin_infelcom'%}
 		  									<select form="member_add_form" name="projects" multiple>
 		  									{%for project in all_projects%}
 			  									{%if member in project.members.all%}
@@ -334,7 +334,7 @@ Version 2 ############ -->
 	  											{%endfor%}
 	  										</select>
 	  									{%else%}
-		  									{%if request.session.user == 'admin'%}
+		  									{%if request.user.username == 'administrador' or request.user.username == 'admin_infelcom'%}
 			  									<select form="member_add_form" name="products" multiple>
 			  									{%for product in all_products%}
 				  									{%if member in product.members.all%}
@@ -409,7 +409,7 @@ Version 2 ############ -->
 <script src="{{STATIC_URL}}js/main.js"></script>
 <script src="{{STATIC_URL}}js/jquery.mCustomScrollbar.concat.min.js"></script>
 <script src="{{STATIC_URL}}js/jquery.cleditor.min.js"></script>
-{%if request.session.user == 'admin'%}
+{%if request.user.username == 'administrador' or request.user.username == 'admin_infelcom'%}
 <script src="{{STATIC_URL}}js/jquery.jeditable.mini.js"></script>
 {%endif%}
 

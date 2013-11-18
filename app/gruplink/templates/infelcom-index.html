@@ -88,9 +88,9 @@ Version 2 ############ -->
 										</li>
 										{%endfor%}
 
-										{%if request.session.user == 'admin'%}
 										<ul class="nav pull-right" id="top_nav_admin">
 
+											{%if request.user.username == 'administrador' or request.user.username == 'admin_infelcom'%}
 											<li class="dropdown">
 												<a class="dropdown-toggle" href="#" data-toggle="dropdown"><i class="fa-icon-plus"></i></a>
 												<div class="dropdown-menu">
@@ -155,8 +155,25 @@ Version 2 ############ -->
 													<button id="submit_section_updates" class="btn btn-success" >Guardar</button>
 												</div>
 											</li>
+											{%endif%}
+											<li class="dropdown">
+												<a class="dropdown-toggle" href="#" data-toggle="dropdown"><i class="fa-icon-user"></i></a>
+												<div class="dropdown-menu" style="text-align:left;">
+													{%if request.user.username == 'administrador' or request.user.username == 'admin_infelcom'%}
+													<small>Ha iniciado sesión como:</small>
+													<h4>{{request.user.username}}</h4>
+													<p><a href="/logout" class="btn btn-danger">Cerrar Sesión</a></p>
+													{%else%}
+													<form action="login" method="POST">
+														{% csrf_token %}
+														<input type="text" name="username" placeholder="Nombre de usuario"/>
+														<input type="password" name="pass" placeholder="contraseña"/>
+														<input type="submit" class="btn btn-success" value="Login"/>
+													</form>
+													{%endif%}
+												</div>
+											</li>
 										</ul>
-										{%endif%}
 										<div class="btn-group" style="line-height:40px;display: inline-block;">
 											<button class="btn btn-medium"><i class="fa-icon-globe"></i> {%trans "language"%}</button>
 											<button class="btn btn-medium dropdown-toggle" data-toggle="dropdown">
@@ -197,7 +214,7 @@ Version 2 ############ -->
 			<div class="hero-unit" id="inicio">
 
 				<div class="responsive-slider" data-spy="responsive-slider" data-autoplay="true">
-					{%if request.session.user == 'admin' %}
+					{%if request.user.username == 'administrador' or request.user.username == 'admin_infelcom' %}
 					<div id="slides_admin_toolbar" class="btn-group">
 						<a href="#" class="btn" id="btn_add_slide"><i class="fa-icon-plus"></i></a>
 						<a href="#" class="btn" id="btn_edit_slide"><i class="fa-icon-edit"></i></a>
@@ -293,7 +310,7 @@ Version 2 ############ -->
 			<div id="org">
 
 
-				{%if request.session.user == 'admin' %}
+				{%if request.user.username == 'administrador' or request.user.username == 'admin_infelcom' %}
 				<div id="aspects_admin_toolbar" class="btn-group">
 					<a href="#" class="btn" id="btn_add_aspect"><i class="fa-icon-plus"></i></a>
 					<a href="#" class="btn" id="btn_edit_aspect"><i class="fa-icon-edit"></i></a>
@@ -359,13 +376,51 @@ Version 2 ############ -->
 		</div>
 	</section>
 
+	{%for section in sections%}
+	{%if section.locked == 0%}
+	<section id="{{section.section_name}}">
+				<!-- Header -->
+		<header class="" >
+			<div class="page-header ">
+				<div class="container">
+					<div class="row-fluid">
+						<h3>
+							{{section.section_title}}
+							{%if request.user.username == 'administrador'%}
+							<a class="btn btn_large edit_content">Editar contenido</a>
+							{%endif%}
+						</h3>
+					
+					</div>
+				</div>	
+			</div>
+		</header>
+		<div class="container">
+			{%for content in contents%}
+				{%if content.section_id.id == section.id%}
+					<span class="content_text">{{content.text}}</span>
+					<form style="display:none;" action="actualizar_contenido" class="edit_content_form" method="POST">
+						{% csrf_token %}
+						<input type="hidden" name="id" value="{{content.id}}"/>
+						<textarea name="text" class="content_editor"></textarea>
+						<input type="submit" class="btn btn-success" value="Guardar"/>
+						<input type="submit" class="btn btn-danger cancel" value="Cancelar"/>
+					</form>
+				{%endif%}
+			{%endfor%}
+
+		</div> 
+	</section>
+	{%endif%}
+	{%endfor%}
+
 	<section id="miembros">
 		<header>
 			<div class="page-header ">
 				<div class="container">
 					<div class="row-fluid">
 						<h3>Miembros 
-						{%if request.session.user == 'admin'%}
+						{%if request.user.username == 'administrador' or request.user.username == 'admin_infelcom'%}
 						<a href="/infelcom/perfil/nuevo" class="btn">Agregar miembro</a>
 						{%endif%}
 						</h3>
@@ -416,7 +471,7 @@ Version 2 ############ -->
 				<div class="container">
 					<div class="row-fluid">
 						<h3>Proyectos
-							{%if request.session.user == 'admin'%}
+							{%if request.user.username == 'administrador' or request.user.username == 'admin_infelcom'%}
 							<a href="/infelcom/proyecto/nuevo" class="btn">Agregar proyecto</a>
 							{%endif%}
 						</h3>
@@ -450,7 +505,7 @@ Version 2 ############ -->
 				<div class="container">
 					<div class="row-fluid">
 						<h3>Productos
-							{%if request.session.user == 'admin'%}
+							{%if request.user.username == 'administrador' or request.user.username == 'admin_infelcom'%}
 							<a href="/infelcom/producto/nuevo" class="btn">Agregar producto</a>
 							{%endif%}
 						</h3>

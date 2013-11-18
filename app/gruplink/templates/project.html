@@ -88,9 +88,9 @@ Version 2 ############ -->
   											</li>
   											{%endfor%}
 
-  											{%if request.session.user == 'admin'%}
-  											<ul class="nav pull-right" id="top_nav_admin">
+                        <ul class="nav pull-right" id="top_nav_admin">
 
+  											{%if request.user.username == 'administrador' or request.user.username == 'admin_infelcom'%}
   												<li class="dropdown">
   													<a class="dropdown-toggle" href="#" data-toggle="dropdown"><i class="fa-icon-plus"></i></a>
   													<div class="dropdown-menu">
@@ -155,8 +155,26 @@ Version 2 ############ -->
   															<button id="submit_section_updates" class="btn btn-success" >Guardar</button>
   														</div>
   													</li>
-  												</ul>
   												{%endif%}
+                          <li class="dropdown">
+                              <a class="dropdown-toggle" href="#" data-toggle="dropdown"><i class="fa-icon-user"></i></a>
+                              <div class="dropdown-menu" style="text-align:left;">
+                                {%if request.user.username == 'administrador' or request.user.username == 'admin_infelcom'%}
+                                <small>Ha iniciado sesión como:</small>
+                                <h4>{{request.user.username}}</h4>
+                                <p><a href="/logout" class="btn btn-danger">Cerrar Sesión</a></p>
+                                {%else%}
+                                <form action="login" method="POST">
+                                  {% csrf_token %}
+                                  <input type="text" name="username" placeholder="Nombre de usuario"/>
+                                  <input type="password" name="pass" placeholder="contraseña"/>
+                                  <input type="submit" class="btn btn-success" value="Login"/>
+                                </form>
+                                {%endif%}
+                              </div>
+                            </li>
+                            
+                          </ul>
   												<div class="btn-group" style="line-height:40px;display: inline-block;">
   													<button class="btn btn-medium"><i class="fa-icon-globe"></i> {%trans "language"%}</button>
   													<button class="btn btn-medium dropdown-toggle" data-toggle="dropdown">
@@ -198,7 +216,7 @@ Version 2 ############ -->
 
   						<div class="responsive-slider" style="box-shadow:none; padding:30px 0;">
   							<div class="container">
-  								{%if request.session.user == 'admin'%}
+  								{%if request.user.username == 'administrador' or request.user.username == 'admin_infelcom'%}
   								<div class="project_toolbar btn-group">
   									<a href="/infelcom/proyecto/nuevo" class="btn" id="btn_add_member"><i class="fa-icon-plus"></i></a>
   									<a href="/infelcom/eliminar_proyecto/{{project.id}}" class="btn" id="btn_del_member"><i class="fa-icon-trash"></i></a>
@@ -206,7 +224,7 @@ Version 2 ############ -->
   								{%endif%}
 
   								<div class="row-fluid" id="show4">
-  									{%if request.session.user == 'admin'%}
+  									{%if request.user.username == 'administrador' or request.user.username == 'admin_infelcom'%}
   									<form style="display:none" id="member_add_form" 
   									{%if adding%}action="/infelcom/agregar_proyecto"
   									{%else%}action="/infelcom/actualizar_proyecto/{{project.id}}"{%endif%}
@@ -277,7 +295,7 @@ Version 2 ############ -->
 	  										</select>
 	  									{%else%}
 
-		  									{%if request.session.user == 'admin'%}
+		  									{%if request.user.username == 'administrador' or request.user.username == 'admin_infelcom'%}
 		  									<select form="member_add_form" name="members" multiple>
 		  									{%for member in members%}
 			  									{%if member in project.members.all%}
@@ -353,7 +371,7 @@ Version 2 ############ -->
 <script src="{{STATIC_URL}}js/main.js"></script>
 <script src="{{STATIC_URL}}js/jquery.mCustomScrollbar.concat.min.js"></script>
 <script src="{{STATIC_URL}}js/jquery.cleditor.min.js"></script>
-{%if request.session.user == 'admin'%}
+{%if request.user.username == 'administrador' or request.user.username == 'admin_infelcom'%}
 <script src="{{STATIC_URL}}js/jquery.jeditable.mini.js"></script>
 {%endif%}
 

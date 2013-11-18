@@ -40,6 +40,8 @@ def home(request):
 							  	 'products':products
 							  	}, context_instance=RequestContext(request))
 
+
+
 def add_section(request):
 
 	print "holaaaa"
@@ -49,7 +51,7 @@ def add_section(request):
 	language=str(request.LANGUAGE_CODE)
 	next_index=int(request.POST.get('section_index'))
 
-	new_section=Section(section_name=name, section_title=title, section_lang=language, section_author=request.session.get('user'), section_index=next_index)
+	new_section=Section(section_name=name, section_title=title, section_lang=language, section_author=request.user, section_index=next_index)
 
 	new_section.save()
 	new_content=Content(section_id=new_section, text="No se ha definido contenido para esta sección")
@@ -71,11 +73,12 @@ def update_sections(request):
 
 	return HttpResponseRedirect("/infelcom")
 
-
 def delete_section(request, identification):
 	section = Section.objects.get(id=identification)
 	section.delete()
 	return HttpResponseRedirect("/infelcom")
+
+
 
 def add_slide(request):
 	name=request.POST.get('name')
@@ -169,6 +172,14 @@ def update_aspect(request):
 	aspect.index=index
 	aspect.content=content
 
+def delete_aspect(request, identification):
+
+	aspect=Aspect.objects.get(id=identification)
+	aspect.delete()
+
+	return HttpResponseRedirect("/infelcom/#escuela")
+
+
 def load_profile_form(request):
 	
 	lang=str(request.LANGUAGE_CODE)
@@ -233,8 +244,6 @@ def add_member(request):
 
 
 	return HttpResponseRedirect("/infelcom/#miembros")
-
-
 
 def update_member(request, identification):
 
@@ -358,7 +367,6 @@ def add_project(request):
 
 	return HttpResponseRedirect("/infelcom/#proyectos")
 
-
 def update_project(request, identification):
 
 	project=Project.objects.get(id=identification)
@@ -405,6 +413,7 @@ def delete_project(request, identification):
 	project.delete()
 
 	return HttpResponseRedirect("/infelcom/#proyectos")
+
 
 
 def load_product_form(request):
@@ -455,7 +464,6 @@ def add_product(request):
 
 	return HttpResponseRedirect("/infelcom/#productos")
 
-
 def update_product(request, identification):
 
 	product=Product.objects.get(id=identification)
@@ -488,7 +496,6 @@ def update_product(request, identification):
 		product.save()
 
 	return HttpResponseRedirect("/infelcom/#productos")
-
 
 def delete_product(request, identification):
 	product=Product.objects.get(id=identification)

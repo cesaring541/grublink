@@ -10,15 +10,22 @@ import re
 
 from django.utils import translation
 
-def logout(request):
-	del request.session['user']
+from django.contrib.auth import logout
+
+def logout_view(request):
+	logout(request)
+
 	return HttpResponseRedirect("/")
+
 
 def load_admin(request):
 	request.session['user']='admin'
 	return HttpResponseRedirect("/")
 
 def home(request):
+	print request.user
+
+
 	lang=str(request.LANGUAGE_CODE)
 	sections = Section.objects.filter(section_lang=lang).order_by('section_index')
 	slides=Slide.objects.filter(slide_lang=lang).order_by('slide_index')
@@ -42,7 +49,7 @@ def add_section(request):
 	language=str(request.LANGUAGE_CODE)
 	next_index=int(request.POST.get('section_index'))
 
-	new_section=Section(section_name=name, section_title=title, section_lang=language, section_author=request.session.get('user'), section_index=next_index)
+	new_section=Section(section_name=name, section_title=title, section_lang=language, section_author=request.user, section_index=next_index)
 
 	new_section.save()
 	new_content=Content(section_id=new_section, text="No se ha definido contenido para esta sección")
@@ -192,8 +199,34 @@ def update_aspect(request):
 
 	return HttpResponseRedirect("/")
 
+
+def delete_aspect(request, identification):
+
+	aspect=Aspect.objects.get(id=identification)
+	aspect.delete()
+
+
 def delete_slide(request, identification):
 	
 	aspect = Aspect.objects.get(id=identification)
 	aspect.delete()
 	return HttpResponseRedirect("/")
+
+
+from django.contrib.auth import authenticate, login
+
+def login_admin(request):
+	username = request.POST['username']
+	password = request.POST['pass']
+
+	user = authenticate(username=username, password=password)
+
+	if user is not None:
+		if user.is_active:
+			login(request, user)
+
+			return HttpResponseRedirect("/")
+		else:
+			return HttpResponseRedirect("/")
+	else:
+		return HttpResponseRedirect("/")
