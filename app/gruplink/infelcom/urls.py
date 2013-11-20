@@ -9,6 +9,7 @@ urlpatterns = patterns('',
     url(r'^/$', 'infelcom.views.home'),
     url(r'^/logout', 'infelcom.views.logout'),
     url(r'^/administrador', 'infelcom.views.load_admin'),
+    url(r'^/actualizar_contenido', 'infelcom.views.update_content'),
     
     url(r'^/agregar_seccion', 'infelcom.views.add_section'),
     url(r'^/actualizar_secciones', 'infelcom.views.update_sections'),

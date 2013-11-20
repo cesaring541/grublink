@@ -14,6 +14,7 @@ Version 2 ############ -->
 <meta name="description" content="responsive parallax Bootstrap template">
 <meta name="author" content="ArtLabs">
 
+
 <!-- Bootstrap -->
 <link href="{{STATIC_URL}}css/bootstrap/bootstrap.css" rel="stylesheet">
 <link href="{{STATIC_URL}}css/bootstrap/bootstrap-responsive.css" rel="stylesheet">
@@ -38,6 +39,12 @@ Version 2 ############ -->
 	
 <!--Favicon -->
 <link rel="shortcut icon" href="{{MEDIA_URL}}img/favicon.ico">
+
+{%if request.session.filtering_charge_by%}
+<script type="text/javascript">
+	document.location.href="#miembros";
+</script>
+{%endif%}
 
 </head>
 
@@ -87,7 +94,7 @@ Version 2 ############ -->
 											<a href="#{{section.section_name}}">{{section.section_title}}</a>
 										</li>
 										{%endfor%}
-
+										{%if sections%}
 										<ul class="nav pull-right" id="top_nav_admin">
 
 											{%if request.user.username == 'administrador' or request.user.username == 'admin_infelcom'%}
@@ -174,6 +181,7 @@ Version 2 ############ -->
 												</div>
 											</li>
 										</ul>
+										{%endif%}
 										<div class="btn-group" style="line-height:40px;display: inline-block;">
 											<button class="btn btn-medium"><i class="fa-icon-globe"></i> {%trans "language"%}</button>
 											<button class="btn btn-medium dropdown-toggle" data-toggle="dropdown">
@@ -217,9 +225,10 @@ Version 2 ############ -->
 					{%if request.user.username == 'administrador' or request.user.username == 'admin_infelcom' %}
 					<div id="slides_admin_toolbar" class="btn-group">
 						<a href="#" class="btn" id="btn_add_slide"><i class="fa-icon-plus"></i></a>
+						{%if slides%}
 						<a href="#" class="btn" id="btn_edit_slide"><i class="fa-icon-edit"></i></a>
 						<a href="#" class="btn" id="btn_del_slide"><i class="fa-icon-trash"></i></a>
-						<a href="#" class="btn"><i class="fa-icon-cog"></i></a>
+						{%endif%}
 					</div>
 
 					<div id="add_slide_form">
@@ -313,9 +322,10 @@ Version 2 ############ -->
 				{%if request.user.username == 'administrador' or request.user.username == 'admin_infelcom' %}
 				<div id="aspects_admin_toolbar" class="btn-group">
 					<a href="#" class="btn" id="btn_add_aspect"><i class="fa-icon-plus"></i></a>
+					{%if aspects%}
 					<a href="#" class="btn" id="btn_edit_aspect"><i class="fa-icon-edit"></i></a>
 					<a href="#" class="btn" id="btn_del_aspect"><i class="fa-icon-trash"></i></a>
-					<a href="#" class="btn"><i class="fa-icon-cog"></i></a>
+					{%endif%}
 				</div>
 
 				<div id="add_aspect_form">
@@ -347,15 +357,6 @@ Version 2 ############ -->
 				{%endif%}
 
 
-
-
-
-
-
-
-
-
-
 				<ul id="aspect_pager">
 					{%for aspect in aspects%}
 					<li aspect="{{aspect.title.split|join:"_"}}"><i class="{{aspect.icon_name}}"></i></li>
@@ -376,44 +377,6 @@ Version 2 ############ -->
 		</div>
 	</section>
 
-	{%for section in sections%}
-	{%if section.locked == 0%}
-	<section id="{{section.section_name}}">
-				<!-- Header -->
-		<header class="" >
-			<div class="page-header ">
-				<div class="container">
-					<div class="row-fluid">
-						<h3>
-							{{section.section_title}}
-							{%if request.user.username == 'administrador'%}
-							<a class="btn btn_large edit_content">Editar contenido</a>
-							{%endif%}
-						</h3>
-					
-					</div>
-				</div>	
-			</div>
-		</header>
-		<div class="container">
-			{%for content in contents%}
-				{%if content.section_id.id == section.id%}
-					<span class="content_text">{{content.text}}</span>
-					<form style="display:none;" action="actualizar_contenido" class="edit_content_form" method="POST">
-						{% csrf_token %}
-						<input type="hidden" name="id" value="{{content.id}}"/>
-						<textarea name="text" class="content_editor"></textarea>
-						<input type="submit" class="btn btn-success" value="Guardar"/>
-						<input type="submit" class="btn btn-danger cancel" value="Cancelar"/>
-					</form>
-				{%endif%}
-			{%endfor%}
-
-		</div> 
-	</section>
-	{%endif%}
-	{%endfor%}
-
 	<section id="miembros">
 		<header>
 			<div class="page-header ">
@@ -423,6 +386,36 @@ Version 2 ############ -->
 						{%if request.user.username == 'administrador' or request.user.username == 'admin_infelcom'%}
 						<a href="/infelcom/perfil/nuevo" class="btn">Agregar miembro</a>
 						{%endif%}
+						<div style="display:inline-block; float:right;">
+							<form action="/infelcom/" method="POST">
+							{%csrf_token%}
+								<small>Filtrar por cargo: </small>
+								<select name="charge" style="height: 100%;padding: 10px;margin-bottom: 0;">
+									{%if request.session.filtering_charge_by == "all"%}
+									<option value="all" selected>Todos</option>
+									{%else%}
+									<option value="all">Todos</option>
+									{%endif%}
+
+									{%if request.session.filtering_charge_by == "Director"%}
+									<option value="Director" selected>Director</option>
+									{%else%}
+									<option value="Director">Director</option>
+									{%endif%}
+									{%if request.session.filtering_charge_by == "Investigador"%}
+									<option value="Investigador" selected>Investigador</option>
+									{%else%}
+									<option value="Investigador">Investigador</option>
+									{%endif%}
+									{%if request.session.filtering_charge_by == "Semillero"%}
+									<option value="Semillero" selected>Semillero</option>
+									{%else%}
+									<option value="Semillero">Semillero</option>
+									{%endif%}
+								</select>
+								<input type="submit" class="btn btn-large"/>
+							</form>
+						</div>
 						</h3>
 					</div>
 				</div>	
@@ -458,6 +451,8 @@ Version 2 ############ -->
 						</div> 
 					</div>
 				</div>
+				{%empty%}
+				<h3>No se encontraron miembros</h3>
 				{%endfor%}
 			</div>
 		</div>
@@ -530,7 +525,46 @@ Version 2 ############ -->
 
 		</div> 
 
+
 	</section>
+
+	{%for section in sections%}
+	{%if section.locked == 0%}
+	<section id="{{section.section_name}}">
+		<!-- Header -->
+		<header class="" >
+			<div class="page-header ">
+				<div class="container">
+					<div class="row-fluid">
+						<h3>
+							{{section.section_title}}
+							{%if request.user.username == 'administrador'%}
+							<a class="btn btn_large edit_content">Editar contenido</a>
+							{%endif%}
+						</h3>
+
+					</div>
+				</div>	
+			</div>
+		</header>
+		<div class="container">
+			{%for content in contents%}
+			{%if content.section_id.id == section.id%}
+			<span class="content_text">{{content.text}}</span>
+			<form style="display:none;" action="actualizar_contenido" class="edit_content_form" method="POST">
+				{% csrf_token %}
+				<input type="hidden" name="id" value="{{content.id}}"/>
+				<textarea name="text" class="content_editor"></textarea>
+				<input type="submit" class="btn btn-success" value="Guardar"/>
+				<input type="submit" class="btn btn-danger cancel" value="Cancelar"/>
+			</form>
+			{%endif%}
+			{%endfor%}
+
+		</div> 
+	</section>
+	{%endif%}
+	{%endfor%}
 
 
 <footer class="footer" id="contacto">

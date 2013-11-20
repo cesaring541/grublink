@@ -11,11 +11,11 @@ from django.utils import translation
 
 def logout(request):
 	del request.session['user']
-	return HttpResponseRedirect("/infelcom")
+	return HttpResponseRedirect("/infelcom/#inicio")
 
 def load_admin(request):
 	request.session['user']='admin'
-	return HttpResponseRedirect("/infelcom")
+	return HttpResponseRedirect("/infelcom/#inicio")
 
 def home(request):
 
@@ -28,6 +28,13 @@ def home(request):
 	links=ProfileLinks.objects.all()
 	projects=Project.objects.all()
 	products=Product.objects.all()
+	contents=Content.objects.all()
+	
+	if request.method=="POST":
+		if request.POST.get("charge"):
+			if request.POST.get("charge") != "all":
+				members=Member.objects.filter(charge=request.POST.get("charge"))
+		request.session['filtering_charge_by']=request.POST.get("charge")
 
 	return render_to_response ('infelcom-index.html', 
 							  	{'sections':sections, 
@@ -37,10 +44,9 @@ def home(request):
 							  	 'members':members,
 							  	 'links':links,
 							  	 'projects':projects,
-							  	 'products':products
+							  	 'products':products,
+							  	 'contents':contents
 							  	}, context_instance=RequestContext(request))
-
-
 
 def add_section(request):
 
@@ -55,6 +61,8 @@ def add_section(request):
 
 	new_section.save()
 	new_content=Content(section_id=new_section, text="No se ha definido contenido para esta sección")
+	new_content=Content(section_id=new_section, text="No se ha definido contenido para esta sección")
+	new_content.save()
 
 	return HttpResponseRedirect("/infelcom")
 
@@ -73,6 +81,20 @@ def update_sections(request):
 
 	return HttpResponseRedirect("/infelcom")
 
+
+def update_content(request):
+
+	id=request.POST.get('id')
+	text=request.POST.get('text')
+
+	content=Content.objects.get(id=id)
+	content.text=text
+	content.save()
+
+	return HttpResponseRedirect("/infelcom")
+
+
+
 def delete_section(request, identification):
 	section = Section.objects.get(id=identification)
 	section.delete()
@@ -90,20 +112,14 @@ def add_slide(request):
 	icon=request.FILES.get('icon')
 	index=request.POST.get('index')
 
-
-	print(bg,icon)
-
-
 	new_slide=Slide(slide_name=name, 
 		slide_title=title, slide_abstract=abstract, slide_lang=request.LANGUAGE_CODE, 
-		slide_author=request.session['user'],
+		slide_author=request.user,
 		slide_link=link, slide_bg=bg, slide_icon=icon, slide_index=int(index))
 
-
-	print(new_slide.slide_bg)
-
 	new_slide.save()
-	return HttpResponseRedirect("/infelcom")
+
+	return HttpResponseRedirect("/infelcom/#inicio")
 
 def update_slide(request):
 
@@ -151,7 +167,7 @@ def add_aspect(request):
 
 	new_aspect.save()
 
-	return HttpResponseRedirect("/infelcom")
+	return HttpResponseRedirect("/infelcom/#grupo")
 
 def update_aspect(request):
 	id=request.POST.get('id')
@@ -172,12 +188,16 @@ def update_aspect(request):
 	aspect.index=index
 	aspect.content=content
 
+	aspect.save()
+
+	return HttpResponseRedirect("/infelcom/#grupo")
+
 def delete_aspect(request, identification):
 
 	aspect=Aspect.objects.get(id=identification)
 	aspect.delete()
 
-	return HttpResponseRedirect("/infelcom/#escuela")
+	return HttpResponseRedirect("/infelcom/#grupo")
 
 
 def load_profile_form(request):
@@ -509,12 +529,3 @@ def delete_product(request, identification):
 	product.delete()
 
 	return HttpResponseRedirect("/infelcom/#productos")
-
-
-
-
-def delete_slide(request, identification):
-	
-	aspect = Aspect.objects.get(id=identification)
-	aspect.delete()
-	return HttpResponseRedirect("/infelcom")

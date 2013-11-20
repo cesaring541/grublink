@@ -195,7 +195,72 @@ $(document).ready(function(){
 	});
 
 	$('#btn_del_aspect').click(function(){
-		document.location.href='eliminar_aspecto/'+$('.displayed').attr('aspect-id');
+		document.location.href='eliminar_slide/'+$('.displayed').attr('aspect-id');
+	});
+
+	$('.edit_textarea').editable(function(value, settings) { 
+		$("#member_description").val(value);
+		$("#project_description").val(value);
+		$("#product_description").val(value);
+		return(value);
+	}, { 
+		type    : 'textarea',
+		submit  : 'OK',
+	});
+
+	$('#edit_name').editable(function(value, settings) { 
+		$("#member_name").val(value);
+		$("#project_title").val(value);
+		$("#product_title").val(value);
+		return(value);
+	}, { 
+		type    : 'text',
+		submit  : 'OK',
+	});
+
+	$('#edit_lastname').editable(function(value, settings) { 
+		$("#member_lastname").val(value);
+		return(value);
+	}, { 
+		type    : 'text',
+		submit  : 'OK',
+	});
+
+
+	$('.edit_charge').editable(function(value, settings) { 
+		$("#member_charge").val(value);
+		return(value);
+	}, { 
+		data   : " {'Director':'Director','Semillero':'Semillero','Investigador':'Investigador', 'selected':'Director'}",
+		type   : 'select',
+		submit : 'OK'
+	});
+
+	$('.edit_status').editable(function(value, settings) { 
+		$("#project_status").val(value);
+		return(value);
+	}, { 
+		data   : " {'Activo':'Activo','Terminado':'Terminado','selected':'Activo'}",
+		type   : 'select',
+		submit : 'OK'
+	});
+
+	$(".link_editable").editable(function(value, settings) { 
+		$("#member_cvlac").val(value);
+		$("#project_moreurl").val(value);
+		$("#product_moreurl").val(value);
+		return(value);
+	}, { 
+		type      : "text",
+		tooltip   : "Move mouseover to edit...",
+		event     : "click",
+		submit : 'OK'
+	});
+
+	$(".thumbnail img").click(function(){
+		$("#member_image").click();
+		$("#project_image").click();
+		$("#product_image").click();
 	});
 });
 

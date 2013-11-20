@@ -111,14 +111,14 @@ def add_slide(request):
 
 	new_slide=Slide(slide_name=name, 
 		slide_title=title, slide_abstract=abstract, slide_lang=request.LANGUAGE_CODE, 
-		slide_author=request.session['user'],
+		slide_author=request.user,
 		slide_link=link, slide_bg=bg, slide_icon=icon, slide_index=int(index))
 
 
 	print(new_slide.slide_bg)
 
 	new_slide.save()
-	return HttpResponseRedirect("/")
+	return HttpResponseRedirect("/#escuela")
 
 def update_slide(request):
 
@@ -143,7 +143,7 @@ def update_slide(request):
 
 	slide.save()
 
-	return HttpResponseRedirect("/")
+	return HttpResponseRedirect("/#escuela")
 
 def delete_slide(request, identification):
 	
@@ -169,7 +169,7 @@ def add_aspect(request):
 
 	new_aspect.save()
 
-	return HttpResponseRedirect("/")
+	return HttpResponseRedirect("/#escuela")
 
 def update_aspect(request):
 	id=request.POST.get('id')
@@ -189,15 +189,9 @@ def update_aspect(request):
 	aspect.icon_name=icon_name
 	aspect.index=index
 	aspect.content=content
-	
-
-
-
-	# print(new_slide.slide_bg)
-
 	aspect.save()
 
-	return HttpResponseRedirect("/")
+	return HttpResponseRedirect("/#escuela")
 
 
 def delete_aspect(request, identification):
@@ -205,12 +199,7 @@ def delete_aspect(request, identification):
 	aspect=Aspect.objects.get(id=identification)
 	aspect.delete()
 
-
-def delete_slide(request, identification):
-	
-	aspect = Aspect.objects.get(id=identification)
-	aspect.delete()
-	return HttpResponseRedirect("/")
+	return HttpResponseRedirect("/#escuela")
 
 
 from django.contrib.auth import authenticate, login
