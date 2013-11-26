@@ -118,7 +118,7 @@ def add_slide(request):
 	print(new_slide.slide_bg)
 
 	new_slide.save()
-	return HttpResponseRedirect("/#escuela")
+	return HttpResponseRedirect("/#inicio")
 
 def update_slide(request):
 
@@ -143,13 +143,13 @@ def update_slide(request):
 
 	slide.save()
 
-	return HttpResponseRedirect("/#escuela")
+	return HttpResponseRedirect("/#inicio")
 
 def delete_slide(request, identification):
 	
 	slide = Slide.objects.get(id=identification)
 	slide.delete()
-	return HttpResponseRedirect("/")
+	return HttpResponseRedirect("/#inicio")
 
 
 def add_aspect(request):

@@ -63,7 +63,7 @@
       },
       jump: function(slide, transitionTime, noanimation) {
 
-        $(this.$slides[slide]).next().addClass('showed').siblings().removeClass('showed');
+
 
         var animateOptions, gWidth, r, step;
         if (transitionTime == null) {
@@ -72,11 +72,18 @@
         if (noanimation == null) {
           noanimation = false;
         }
+
         r = this;
         if (slide === r.current) {
           noanimation = true;
         }
         if (this.$slides.length >= slide && !this.slideChangeInProgress) {
+          if(slide > r.current){
+            $(this.$slides[parseInt((slide+3)/2)]).addClass('showed').siblings().removeClass('showed');
+          }else{
+            $(this.$slides[parseInt(slide/2)]).addClass('showed').siblings().removeClass('showed');
+          }
+
           gWidth = this.getGlobalWidth();
           if (!noanimation) {
             this.hideAnimatedCaptions(slide);
